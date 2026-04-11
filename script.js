@@ -511,6 +511,7 @@ async function migrarDadosPlanilhaParaFirebase(email) {
       // TODO: Implementar loop para salvar cada cliente via salvarClienteHub ou batch
     }
     
+// ...
     // Salvar Produtos
     if (produtosMock.length > 0) {
       console.log("[MIGRAÇÃO] Salvando produtos em /lojas/{uid}/produtos...");
@@ -651,6 +652,27 @@ async function executarMigracaoSilenciosa(email, uid) {
 
 
 // ============================================================
+// FASE 14: MODAL ALERTA CUSTOMIZADO (antes de Planos para evitar hoisting)
+// ============================================================
+
+// Helpers centralizados de body overflow (Item 1: evita scroll do fundo ao abrir modal)
+function _lockScroll() { document.body.style.overflow = "hidden"; }
+function _unlockScroll() { document.body.style.overflow = ""; }
+
+function mostrarAlertaCustomizado(titulo, mensagem, icone = "ℹ️") {
+  document.getElementById("alert-titulo").innerText = titulo;
+  document.getElementById("alert-mensagem").innerHTML = mensagem;
+  document.getElementById("alert-icon").innerText = icone;
+  document.getElementById("modal-alerta").style.display = "flex";
+  _lockScroll();
+}
+
+function fecharAlerta() {
+  document.getElementById("modal-alerta").style.display = "none";
+  _unlockScroll();
+}
+
+// ============================================================
 // CONTROLE DE ACESSO POR PLANO (Básico vs Premium)
 // ============================================================
 
@@ -695,16 +717,31 @@ function mostrarToastUpgrade(funcionalidade) {
     "fornecedores": "Cadastro de Fornecedores",
     "compras": "Controle de Compras",
     "relatorios": "Relatórios Avançados",
-    "membros": "Múltiplos Usuários"
+    "estoque": "Gestão de Estoque"
   };
-  
   const nome = nomes[funcionalidade] || funcionalidade;
   mostrarToast(`🔒 ${nome} disponível no Plano Premium. Toque para ver planos.`, "aviso");
   
-  // Opcional: abrir modal de planos após 2 segundos
+  // FASE 14: Usar modal customizado em vez de confirm() nativo
   setTimeout(() => {
-    if (confirm(`Deseja fazer upgrade para o Plano Premium e ter acesso a ${nome}?`)) {
-      abrirModalPlanos();
+    mostrarAlertaCustomizado(
+      "Upgrade Premium",
+      "Para acessar Compras, Fornecedores e gerar Relatórios, faça upgrade para o plano Premium.",
+      "⭐"
+    );
+    // Adicionar evento de clique no botão OK para abrir modal de planos
+    document.getElementById("modal-alerta").onclick = (e) => {
+      if (e.target.id === "modal-alerta") {
+        fecharAlerta();
+      }
+    };
+    const btnOk = document.querySelector("#modal-alerta button");
+    if (btnOk) {
+      const originalOnClick = btnOk.onclick;
+      btnOk.onclick = () => {
+        fecharAlerta();
+        abrirModalPlanos();
+      };
     }
   }, 2000);
 }
@@ -7903,13 +7940,9 @@ function confirmarAcao(icone, titulo, mensagem) {
   document.getElementById("confirm-titulo").innerText = titulo;
   document.getElementById("confirm-mensagem").innerHTML = mensagem;
   document.getElementById("modal-confirmacao").style.display = "flex";
-  _lockScroll();
   return new Promise(resolve => { confirmacaoResolve = resolve; const btn = document.getElementById("btn-confirmar-ok"); btn.replaceWith(btn.cloneNode(true)); document.getElementById("btn-confirmar-ok").onclick = () => fecharConfirmacao(true); });
 }
 function fecharConfirmacao(v) { document.getElementById("modal-confirmacao").style.display = "none"; _unlockScroll(); if (confirmacaoResolve) { confirmacaoResolve(v); confirmacaoResolve = null; } }
-// Helpers centralizados de body overflow (Item 1: evita scroll do fundo ao abrir modal)
-function _lockScroll() { document.body.style.overflow = "hidden"; }
-function _unlockScroll() { document.body.style.overflow = ""; }
 
 function abrirModalTermos(e) { if (e) e.preventDefault(); document.getElementById("modal-termos").style.display = "flex"; _lockScroll(); }
 function fecharModalTermos() { document.getElementById("modal-termos").style.display = "none"; _unlockScroll(); }
