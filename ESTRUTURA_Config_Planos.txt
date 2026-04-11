@@ -1,0 +1,90 @@
+ESTRUTURA DA ABA Config_Planos - BATECAIXA
+===============================================
+
+COLUNAS:
+A: ID_Plano (identificador único usado no sistema)
+B: Nome (nome amigável exibido para o usuário)
+C: Perfil (perfilNegocio correspondente: varejo-trial, varejo-rapido, etc.)
+D: Preço (valor mensal em R$)
+E: Descrição (detalhes do plano)
+F: Status (ATIVO/INATIVO)
+G: Período (mensal/trimestral/anual)
+H: Trial (dias de trial, se aplicável)
+I: Recursos (lista de funcionalidades separadas por ;)
+J: Limites (limites de uso separados por ;)
+
+LINHAS SUGERIDAS:
+
+ID_Plano: trial_7dias
+Nome: Trial 7 Dias
+Perfil: varejo-trial
+Preço: 0,00
+Descrição: Acesso completo por 7 dias para testar todas as funcionalidades
+Status: ATIVO
+Período: mensal
+Trial: 7
+Recursos: Vendas; Compras; Histórico; Relatórios; Configurações; Admin
+Limites: 7 dias; 1 usuário; Dados ilimitados
+
+ID_Plano: mensal_basico
+Nome: Plano Básico
+Perfil: varejo-rapido
+Preço: 29,90
+Descrição: Varejo Rápido - Fechamento de caixa simplificado
+Status: ATIVO
+Período: mensal
+Trial: 0
+Recursos: Fechamento de caixa; Relatórios básicos; Configurações
+Limites: 1 usuário; Sem estoque; Sem produtos
+
+ID_Plano: mensal_padrao
+Nome: Plano Padrão
+Perfil: varejo-padrao
+Preço: 49,90
+Descrição: Varejo Completo - Vendas individuais e fechamento de caixa
+Status: ATIVO
+Período: mensal
+Trial: 0
+Recursos: Vendas individuais; Fechamento de caixa; Histórico; Relatórios; Configurações; Clientes básicos
+Limites: 1 usuário; Estoque simples (sem baixa automática); Até 50 produtos
+
+ID_Plano: mensal_premium
+Nome: Plano Premium
+Perfil: varejo-premium
+Preço: 79,90
+Descrição: Varejo com Inventário - Sistema completo com baixa automática de estoque
+Status: ATIVO
+Período: mensal
+Trial: 0
+Recursos: Todas as funcionalidades; Estoque completo; Baixa automática; Relatórios avançados; Multi-usuários
+Limites: 3 usuários; Estoque ilimitado; Produtos ilimitados; Backup automático
+
+ID_Plano: trimestral_premium
+Nome: Plano Premium Trimestral
+Perfil: varejo-premium
+Preço: 199,90 (economia de 20%)
+Descrição: Varejo com Inventário - Pagamento trimestral com desconto
+Status: ATIVO
+Período: trimestral
+Trial: 0
+Recursos: Todas as funcionalidades; Estoque completo; Baixa automática; Relatórios avançados; Multi-usuários
+Limites: 3 usuários; Estoque ilimitado; Produtos ilimitados; Backup automático
+
+ID_Plano: mensal_servicos
+Nome: Plano Serviços
+Perfil: servicos
+Preço: 39,90
+Descrição: Prestador de Serviços - Gestão completa com despesas casadas
+Status: ATIVO
+Período: mensal
+Trial: 0
+Recursos: Serviços; Despesas; Relatórios; Configurações; Histórico; Clientes
+Limites: 1 usuário; Serviços ilimitados; Despesas ilimitadas
+
+MAPEAMENTO ID_Plano → perfilNegocio:
+trial_7dias → varejo-trial
+mensal_basico → varejo-rapido
+mensal_padrao → varejo-padrao
+mensal_premium → varejo-premium
+trimestral_premium → varejo-premium
+mensal_servicos → servicos

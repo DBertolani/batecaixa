@@ -1,0 +1,1928 @@
+/* ============================================================
+   BATECAIXA — style.css v2.3 (unificado)
+   ============================================================ */
+
+/* CSS DE RESET PARA MODAIS */
+.modal-overlay, .modal { 
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.7); z-index: 9999; 
+}
+
+/* Estilos das seções são controlados pela classe .ativa */
+
+:root {
+  --azul: #1565C0;
+  --azul-esc: #0D47A1;
+  --azul-cl: #E3F2FD;
+  --ambar: #FF8F00;
+  --ambar-cl: #FFF8E1;
+  --ambar-esc: #E65100;
+  --verde: #2E7D32;
+  --verde-cl: #E8F5E9;
+  --roxo: #3949AB;
+  --roxo-cl: #E8EAF6;
+  --verm: #C62828;
+  --verm-cl: #FFEBEE;
+  --bg: #F5F7FA;
+  --borda: #E0E0E0;
+  --texto: #546E7A;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  width: 100%;
+}
+
+/* ── CONTAINER PRINCIPAL ──────────────────────────────────────
+   width: 100% + max-width = centraliza no desktop, edge-to-edge no mobile.
+   NUNCA use width: 450px fixo.
+   ─────────────────────────────────────────────────────────── */
+
+/* Ajuste para o mobile não ficar com margens brancas */
+@media (max-width: 600px) {
+  .container-app {
+    max-width: 100% !important;
+    border-radius: 0;
+    padding: 0 !important;
+  }
+  
+  .beneficio-card {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  
+  .beneficio-icon {
+    font-size: 20px;
+  }
+}
+
+/* Ajuste específico para telas muito pequenas */
+@media (max-width: 480px) {
+  .container-app {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  input[type=text],
+  input[type=date],
+  input[type=month],
+  input[type=email],
+  input[type=tel],
+  select,
+  textarea {
+    max-width: none;
+    width: 100%;
+  }
+}
+
+/* ── TELAS ──────────────────────────────────────────────────── */
+#secao-home {
+  justify-content: flex-start;
+  padding-top: 40px;
+  padding-left: 0;
+  padding-right: 0;
+}
+#tela-trial,
+#tela-bloqueio,
+#tela-membro-email,
+#tela-membro-confirmado,
+#tela-membro-codigo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  padding: 30px 0;
+  width: 100%;
+}
+
+
+/* ── LOGO ───────────────────────────────────────────────────── */
+.logo-home {
+  width: 120px;
+  height: 120px;
+  background: transparent;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: 0;
+}
+
+.logo-home--sm {
+  width: 90px;
+  height: 90px;
+}
+
+.logo-app {
+  display: block;
+  object-fit: contain;
+}
+
+.logo-app--home {
+  height: 110px;
+  width: auto;
+  max-width: 100%;
+}
+
+.logo-app--login {
+  height: 80px;
+  width: auto;
+  max-width: 100%;
+}
+
+.logo-app--header {
+  height: 38px;
+  width: auto;
+  max-width: 160px;
+  display: block;
+}
+
+.logo-app--sobre {
+  height: 60px;
+  width: auto;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* ── BENEFÍCIOS ─────────────────────────────────────────────── */
+.beneficio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff;
+  border-left: 4px solid var(--azul);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.beneficio-card:nth-child(2) {
+  border-left-color: var(--ambar);
+}
+
+.beneficio-card:nth-child(3) {
+  border-left-color: var(--roxo);
+}
+
+.beneficio-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.beneficio-card strong {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+  margin-top: 12px;
+}
+
+.beneficio-card p {
+  font-size: 13px;
+  color: #78909C;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ── BOTÃO GOOGLE ───────────────────────────────────────────── */
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px;
+  background: #fff;
+  border: 2px solid var(--borda);
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  cursor: pointer;
+  transition: .2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+  font-family: inherit;
+}
+
+.btn-google:hover {
+  border-color: var(--azul);
+  background: var(--azul-cl);
+}
+
+.btn-google:active {
+  transform: scale(.98);
+}
+
+/* ── SEPARADOR OU ───────────────────────────────────────────── */
+.separador-ou {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0 10px;
+  width: 100%;
+}
+
+.separador-ou::before,
+.separador-ou::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--borda);
+}
+
+.separador-ou span {
+  font-size: 12px;
+  color: #90A4AE;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+/* ── LOADING ────────────────────────────────────────────────── */
+#tela-loading {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  background: white;
+}
+
+.loader {
+  border: 5px solid #f0f0f0;
+  border-top: 5px solid var(--ambar);
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  animation: spin .9s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── CHECK ITEMS ────────────────────────────────────────────── */
+.check-item {
+  font-size: 14px;
+  color: #444;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-weight: 500;
+}
+
+.check-item:last-child {
+  border-bottom: none;
+}
+
+/* ── CARDS MÉTRICA ──────────────────────────────────────────── */
+.card-metrica {
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px clamp(14px, 4vw, 20px);
+  border-radius: 16px;
+  margin-bottom: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-metrica::after {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, .07);
+  border-radius: 50%;
+}
+
+.card-metrica.azul {
+  background: linear-gradient(135deg, var(--azul), var(--azul-esc));
+}
+
+.card-metrica.ambar {
+  background: linear-gradient(135deg, var(--ambar), var(--ambar-esc));
+}
+
+.card-metrica-titulo {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  opacity: .8;
+  margin: 0;
+}
+
+.card-metrica-valor {
+  font-size: 30px;
+  font-weight: 900;
+  margin: 6px 0 0;
+  letter-spacing: -1px;
+}
+
+/* ── MENU GRID ──────────────────────────────────────────────── */
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  width: 100%;
+}
+
+.menu-btn {
+  background: #fff;
+  border: 1.5px solid var(--borda);
+  border-radius: 14px;
+  padding: 22px 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: .15s;
+  min-height: 90px;
+  font-family: inherit;
+}
+
+.menu-btn:active {
+  transform: scale(.97);
+  background: #f0f4ff;
+  border-color: var(--azul);
+}
+
+.menu-icon {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.menu-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #37474F;
+  line-height: 1.2;
+}
+
+.menu-btn-grande {
+  width: 100%;
+  margin-top: 15px;
+  padding: 20px;
+  background: var(--verde-cl);
+  border: 1.5px solid #A5D6A7;
+  border-radius: 14px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--verde);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: .15s;
+  font-family: inherit;
+}
+
+.menu-btn-grande:active {
+  transform: scale(.98);
+}
+
+/* ── TOGGLE MODO VENDA ──────────────────────────────────────── */
+.modo-toggle {
+  display: flex;
+  gap: 0;
+  background: #f5f5f5;
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 5px;
+}
+
+.modo-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border: none;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #78909C;
+  background: transparent;
+  cursor: pointer;
+  transition: .2s;
+  font-family: inherit;
+  text-align: center;
+}
+
+.modo-btn.active {
+  background: #fff;
+  color: var(--azul);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+}
+
+.descricao-modo {
+  font-size: 12px;
+  color: #90A4AE;
+  margin: 0 0 15px;
+  line-height: 1.5;
+  background: var(--azul-cl);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+/* ── RADIO PAGAMENTO ────────────────────────────────────────── */
+.pagamento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.radio-pagamento {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8f9fa;
+  border: 1.5px solid var(--borda);
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+  transition: .15s;
+}
+
+.radio-pagamento:has(input:checked) {
+  background: var(--azul-cl);
+  border-color: var(--azul);
+  color: var(--azul);
+}
+
+.radio-pagamento input {
+  accent-color: var(--azul);
+  transform: scale(1.2);
+}
+
+/* ── HEADER TELA ────────────────────────────────────────────── */
+.header-tela {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding: 8px 0 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.header-tela h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: #333;
+  text-align: center;
+  flex: 1;
+}
+
+.btn-voltar-topo {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: var(--texto);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: .15s;
+}
+
+.btn-voltar-topo:active {
+  background: #f5f5f5;
+}
+
+/* ── INPUTS ─────────────────────────────────────────────────── */
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #37474F;
+  margin-top: 16px;
+}
+
+input[type=text],
+input[type=date],
+input[type=month],
+select,
+textarea {
+  width: 100%;
+  padding: 13px 14px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  box-sizing: border-box;
+  appearance: none;
+  max-width: none;
+}
+
+.filtros-box input,
+.filtros-box select,
+.filtros-box textarea {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #90CAF9;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+/* Campo de busca do Histórico */
+#filtro-busca-hist {
+  font-size: 13px;
+  padding: 6px 8px;
+  border: 1px solid #90CAF9;
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* Botão de ordenar do Histórico */
+#btn-ordenar-hist {
+  white-space: nowrap;
+}
+
+.btn-primario,
+.btn-salvar {
+  width: 100%;
+  max-width: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--azul);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, .1);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%23546E7A' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.grid-valores {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.grid-valores label {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.grid-valores input {
+  padding: 11px 12px;
+  font-size: 15px !important;
+}
+
+/* ── BOTÕES ─────────────────────────────────────────────────── */
+.btn-primario {
+  display: block;
+  background: var(--verde);
+  color: #fff;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  transition: .2s;
+  font-family: inherit;
+  text-align: center;
+}
+
+.btn-primario:active {
+  opacity: .85;
+  transform: scale(.99);
+}
+
+.btn-primario:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-voltar {
+  display: block;
+  background: transparent;
+  color: var(--texto);
+  border: 1.5px solid var(--borda);
+  padding: 13px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 12px;
+  font-family: inherit;
+  text-align: center;
+  transition: .2s;
+}
+
+.btn-voltar:active {
+  background: #f5f5f5;
+}
+
+/* ── FILTROS ────────────────────────────────────────────────── */
+.filtros-box {
+  background: var(--azul-cl);
+  border: 1px solid #90CAF9;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.grid-filtros-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.grid-filtros-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.grid-filtros-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+/* Responsividade para mobile */
+@media (max-width: 768px) {
+  .grid-filtros-3 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .grid-filtros-4 {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  
+  .grid-filtros-2 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-filtros-4 {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+.info-icon {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 14px;
+  font-size: 9px;
+  margin-left: 6px;
+  cursor: help;
+  transition: background 0.2s;
+}
+
+.info-icon:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* Centralização absoluta do Dashboard */
+#faturamento-consolidado-header {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+#receita-hoje {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  justify-content: center !important;
+}
+
+/* Detalhes do Dashboard - Legibilidade aprimorada */
+#hoje-detalhe, #mes-detalhe {
+  font-size: 11px !important;
+  color: #1e3a8a !important;
+  background: #FEF9C3 !important;
+  border-radius: 20px !important;
+  padding: 4px 12px !important;
+  margin: 4px auto !important;
+  display: inline-block !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  border: 1px solid #bfdbfe !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+
+/* Layout inline do período e horários no fechamento */
+#fc-periodo-horarios-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  align-items: end;
+  width: 100%;
+  justify-content: stretch;
+}
+
+/* Quando Personalizado está selecionado */
+#fc-periodo-horarios-container.has-horarios {
+  grid-template-columns: 1.5fr 1fr 1fr;
+}
+
+/* Ajuste para preenchimento total */
+#fc-periodo-horarios-container > * {
+  width: 100%;
+}
+
+/* Filtros de data do Histórico - Alinhamento forçado */
+#filtro-custom-datas {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+
+/* Responsividade para filtros de data */
+@media (max-width: 768px) {
+  #filtro-custom-datas {
+    grid-template-columns: 1fr !important;
+    gap: 4px !important;
+  }
+}
+
+#fc-periodo {
+  font-size: 14px;
+  padding: 6px;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+}
+
+/* Campos de horário individuais */
+#fc-horario-inicio, #fc-horario-fim {
+  font-size: 13px;
+  padding: 6px;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.horarios-inline {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.horarios-inline input[type="time"] {
+  font-size: 13px;
+  padding: 6px;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+}
+
+.filtros-box label {
+  font-size: 12px;
+  color: var(--azul);
+  margin-top: 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+
+.filtros-box input,
+.filtros-box select {
+  padding: 9px 10px;
+  font-size: 13px !important;
+  background: #fff;
+  margin-top: 4px;
+  border-color: #90CAF9;
+}
+
+/* ── CARDS DE ITEM ──────────────────────────────────────────── */
+.item-card {
+  background: #fff;
+  border-left: 4px solid var(--azul);
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .06);
+}
+
+.item-card-compra {
+  border-left-color: var(--ambar-esc);
+}
+
+.item-card-membro {
+  border-left-color: var(--roxo);
+}
+
+.item-card-cliente {
+  border-left-color: #00897B;
+}
+
+.item-card-forn {
+  border-left-color: var(--ambar);
+}
+
+.acoes-card {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f5f5f5;
+}
+
+.btn-acao {
+  border: none;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: .15s;
+}
+
+.btn-acao:active {
+  transform: scale(.97);
+}
+
+.btn-editar {
+  background: #FFF8E1;
+  color: var(--ambar-esc);
+}
+
+.btn-excluir {
+  background: var(--verm-cl);
+  color: var(--verm);
+}
+
+.btn-wpp {
+  background: var(--verde-cl);
+  color: var(--verde);
+}
+
+/* ── RELATÓRIOS ─────────────────────────────────────────────── */
+.relatorio-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+  border: 1px solid #f0f0f0;
+}
+
+.stat-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+  color: #90A4AE;
+  margin-bottom: 6px;
+}
+
+.stat-card strong {
+  font-size: 14px;
+  display: block;
+  font-weight: 900;
+}
+
+/* ── ABAS COM SETAS ─────────────────────────────────────────── */
+.tabs-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 0 6px;
+  margin-bottom: 20px;
+}
+
+/* Setas laterais — estilo InterpretePro */
+.scroll-arrow {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--roxo, #9c27b0);
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: .2s;
+  font-family: inherit;
+}
+
+.scroll-arrow:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.scroll-arrow:active {
+  transform: scale(1);
+}
+
+/* Mantém suporte ao estilo antigo (tab-arrow) */
+.tab-arrow {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: #fff;
+  border: 1.5px solid var(--borda);
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: 900;
+  color: #546E7A;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .15s;
+  font-family: inherit;
+  padding: 0;
+}
+
+.tab-arrow:hover {
+  background: var(--azul-cl);
+  border-color: var(--azul);
+  color: var(--azul);
+}
+
+.tab-arrow:active {
+  transform: scale(.93);
+}
+
+.tabs-nav {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  flex: 1;
+  padding: 15px 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.tabs-nav::-webkit-scrollbar {
+  display: none;
+}
+
+/* Botões de aba — quadrados grandes estilo InterpretePro */
+.tab-btn {
+  flex: 0 0 120px;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border: 2px solid #eee;
+  border-radius: 18px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 4px;
+  cursor: pointer;
+  transition: .15s;
+  line-height: 1.4;
+}
+
+.tab-btn.active {
+  background: var(--roxo-cl, #f3e5f5);
+  border-color: var(--roxo, #9c27b0);
+  color: var(--roxo, #9c27b0);
+  box-shadow: 0 4px 10px rgba(156, 39, 176, .15);
+}
+
+.tab-btn:active {
+  transform: scale(.96);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* ── BADGES ─────────────────────────────────────────────────── */
+.badge-papel {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.badge-vendedor {
+  background: var(--verde-cl);
+  color: var(--verde);
+}
+
+.badge-gerente {
+  background: var(--roxo-cl);
+  color: var(--roxo);
+}
+
+.badge-dono {
+  background: var(--ambar-cl);
+  color: var(--ambar-esc);
+}
+
+.badge-ativo {
+  background: var(--verde-cl);
+  color: var(--verde);
+}
+
+.badge-suspenso {
+  background: var(--verm-cl);
+  color: var(--verm);
+}
+
+.badge-trial {
+  background: var(--ambar-cl);
+  color: var(--ambar-esc);
+}
+
+.badge-pendente {
+  background: #F3E5F5;
+  color: #7B1FA2;
+}
+
+/* ── TOAST ──────────────────────────────────────────────────── */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+  width: 92%;
+  max-width: 420px;
+  pointer-events: none;
+}
+
+.toast {
+  background: #323232;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 12px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .2);
+  animation: slideUp .25s ease, fadeOut .4s ease 2.6s forwards;
+  pointer-events: auto;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.toast.sucesso {
+  background: var(--verde);
+}
+
+.toast.erro {
+  background: var(--verm);
+}
+
+.toast.aviso {
+  background: var(--ambar-esc);
+}
+
+.toast.info {
+  background: #1565C0;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+/* ── MODAIS ─────────────────────────────────────────────────────────────────
+   Abordagem "Modal Elástico":
+   - A rolagem ocorre no .modal-overlay (fundo escuro), nunca no .modal-box
+   - .modal-box cresce com o conteúdo — sem barra de rolagem interna
+   - body.overflow = hidden (aplicado via JS ao abrir) trava o fundo
+   ────────────────────────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0, 0, 0, .55);
+  display: flex;
+  align-items: flex-start;
+  /* alinha ao topo para permitir crescimento */
+  justify-content: center;
+  padding: 5vh 16px;
+  /* respiro visual no topo e base */
+  box-sizing: border-box;
+  overflow-y: auto;
+  /* rolagem no overlay, não no box */
+  -webkit-overflow-scrolling: touch;
+  backdrop-filter: blur(2px);
+}
+
+.modal-box {
+  background: #fff;
+  width: 100%;
+  max-width: 420px;
+  max-height: none;
+  /* SEM limite — cresce com o conteúdo */
+  height: auto;
+  overflow-y: visible;
+  /* SEM barra de rolagem interna */
+  box-sizing: border-box;
+  border-radius: 18px;
+  padding: 24px 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+  animation: modalEntrar .25s ease-out;
+  margin: auto 0;
+  /* centraliza verticalmente quando couber */
+}
+
+@keyframes modalEntrar {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── OUTROS ─────────────────────────────────────────────────── */
+.link-nota {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--azul);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--azul-cl);
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+#tela-dashboard,
+#tela-lancar-vendas,
+#tela-historico,
+#tela-compras,
+#tela-relatorios,
+#tela-configuracoes,
+#tela-admin {
+  animation: fadeInUp .2s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -.3px;
+}
+
+p {
+  margin: 0 0 8px;
+  line-height: 1.5;
+}
+
+/* ── CABEÇALHO DO DASHBOARD (Item 1) ────────────────────────── */
+.dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+}
+
+.dash-header .logo-app--header {
+  height: 36px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.dash-header-center {
+  flex: 1;
+  text-align: center;
+}
+
+.dash-saudacao {
+  font-size: 13px;
+  color: #90A4AE;
+  font-weight: 600;
+}
+
+.dash-btn-sair {
+  flex-shrink: 0;
+  min-width: 80px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFEBEE;
+  border-radius: 10px;
+  color: #C62828;
+  font-size: 12px;
+  text-decoration: none;
+  transition: .15s;
+  padding: 0 8px;
+  gap: 6px;
+}
+
+.dash-btn-sair:hover {
+  background: #FFCDD2;
+}
+
+.dash-nome-loja {
+  font-size: 20px;
+  font-weight: 900;
+  color: #1A237E;
+  text-align: center;
+  margin: 4px 0 12px;
+  letter-spacing: -.5px;
+  min-height: 24px;
+  /* reserva espaço mesmo quando vazio */
+}
+
+.dash-nome-loja:empty {
+  margin-bottom: 4px;
+}
+
+/* ── RESPONSIVO ─────────────────────────────────────────────── */
+
+/* Desktop: sombra e centralização */
+@media (min-width: 601px) {
+  .container-app {
+    box-shadow: 0 0 30px rgba(0, 0, 0, .08);
+  }
+}
+
+/* ── MOBILE FULLSCREEN FIX ──────────────────────────────────────
+   Edge-to-edge: container ocupa 100% da largura, sem margens
+   que espremem o conteúdo em telas pequenas.
+   ─────────────────────────────────────────────────────────────*/
+@media (max-width: 600px) {
+  body {
+    padding: 0 !important;
+    background: white !important;
+    margin: 0 !important;
+  }
+
+  .container-app {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow-x: hidden !important;
+  }
+
+  /* FORÇAR DASHBOARD SEM MARGENS - edge-to-edge com pequena margem */
+  #tela-dashboard {
+    padding: 8px 6px !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Cards colados nas laterais - COM !important para sobrepor inline styles */
+  .card-metrica {
+    padding: 12px 8px !important;
+    margin: 0 0 6px 0 !important;
+    border-radius: 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Menu grid sem espaços */
+  .menu-grid {
+    gap: 6px !important;
+    padding: 0 2px !important;
+  }
+
+  .menu-btn {
+    padding: 14px 6px !important;
+    min-height: 70px !important;
+    border-radius: 10px !important;
+    margin: 0 !important;
+  }
+
+  .menu-icon {
+    font-size: 24px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .menu-text {
+    font-size: 11px !important;
+  }
+
+  .menu-btn-grande {
+    padding: 14px !important;
+    font-size: 15px !important;
+    margin: 8px 2px 0 2px !important;
+  }
+
+  /* Botão de compras sem margens */
+  #menu-dono > button[style*="Registrar Compra"] {
+    margin: 8px 2px 0 2px !important;
+  }
+
+  /* OTIMIZAÇÕES ABAS - Tabs mais compactas */
+  .tabs-wrapper {
+    padding: 0 4px !important;
+    margin-bottom: 15px !important;
+  }
+
+  .tab-btn {
+    flex: 0 0 85px !important;
+    height: 85px !important;
+    font-size: 11px !important;
+    padding: 6px 2px !important;
+    border-radius: 14px !important;
+  }
+
+  .scroll-arrow {
+    padding: 6px !important;
+    font-size: 16px !important;
+  }
+
+  /* Reduzir padding das telas internas */
+  #tela-lancar-vendas,
+  #tela-historico,
+  #tela-compras,
+  #tela-relatorios,
+  #tela-configuracoes,
+  #tela-fechar-caixa {
+    padding: 15px 8px !important;
+  }
+
+  /* Header mais compacto */
+  .header-tela {
+    padding: 6px 0 10px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .header-tela h2 {
+    font-size: 16px !important;
+  }
+
+  .btn-voltar-topo {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 20px !important;
+  }
+}
+
+/* Telas muito pequenas: fonte menor para evitar zoom iOS */
+@media (max-width: 360px) {
+
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 15px !important;
+  }
+}
+
+/* ── SPLASH: Logo com container e animação ───────────────────────── */
+.logo-loading-container {
+  background: #fff;
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 12px 30px rgba(21, 101, 192, .12);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: logoFloat 1.1s ease-in-out infinite;
+}
+
+/* Garante que o fundo da logo não “vaze” por transparência */
+.logo-loading-logo {
+  height: 88px;
+  width: auto;
+  display: block;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ── Upload múltiplo (Compras / Estoque) ───────────────────────── */
+#nota-contador {
+  text-align: center;
+}
+
+.preview-notas-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.preview-notas-gallery img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1.5px solid #E3F2FD;
+  background: #FAFCFF;
+}
+
+/* Área do recibo para captura (html2canvas) */
+.recibo-imagem-area {
+  background: #fff;
+  border-radius: 14px;
+  padding: 12px 10px;
+  border: 1px solid #E3F2FD;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .06);
+}
+
+/* ── FAQ accordion (página como-funciona) ───────────────────────── */
+.faq-item {
+  background: #fff;
+  border: 1.5px solid #E0E0E0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .04);
+}
+
+.faq-question {
+  width: 100%;
+  border: none;
+  background: #F8F9FF;
+  padding: 14px 14px;
+  text-align: left;
+  font-weight: 900;
+  color: #1565C0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.faq-question:active {
+  transform: scale(.99);
+}
+
+.faq-answer {
+  display: none;
+  padding: 0 14px 14px;
+  color: #546E7A;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.faq-item.open .faq-answer {
+  display: block;
+}
+
+/* ── CTA flutuante (página como-funciona) ──────────────────────── */
+.floating-cta {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 420px;
+  z-index: 99999;
+  background: linear-gradient(135deg, #FF8F00, #E65100);
+  color: #fff;
+  border-radius: 18px;
+  padding: 16px;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 18px 40px rgba(225, 97, 0, .25);
+}
+
+.floating-cta:active {
+  transform: translateX(-50%) scale(.99);
+}
+
+/* ── SPA Navigation ───────────────────────────────────── */
+.secao-app {
+  display: none;
+  width: 100%;
+  min-height: auto;
+  box-sizing: border-box;
+  position: relative;
+  padding: 10px 8px;
+  margin: 0;
+}
+.secao-app.ativa {
+  display: block;
+  z-index: 1;
+}
+
+/* Container principal centralizado e empilhado */
+.container-app {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  min-height: auto;
+  box-shadow: 0 0 30px rgba(0, 0, 0, .08);
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Container específico para tela de login com margens reduzidas */
+#secao-login {
+  padding: 20px 16px !important;
+  max-width: 520px !important;
+  margin: 0 auto !important;
+}
+
+/* Sobrescrever padding do secao-app para login */
+#secao-login.secao-app {
+  padding: 20px 16px !important;
+  width: 100% !important;
+  max-width: 520px !important;
+  margin: 0 auto !important;
+}
+
+/* Container específico para tela HOME com margens reduzidas */
+#secao-home {
+  padding: 20px 16px !important;
+}
+
+#secao-home.secao-app {
+  padding: 20px 16px !important;
+}
+
+/* Forçar login e home em mobile também */
+@media (max-width: 600px) {
+  #secao-login {
+    padding: 20px 16px !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  #secao-login.secao-app {
+    padding: 20px 16px !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  #secao-home {
+    padding: 20px 16px !important;
+  }
+  
+  #secao-home.secao-app {
+    padding: 20px 16px !important;
+  }
+}
+
+/* Estilos adicionais para garantir o layout do login */
+#secao-login .beneficio-card {
+  padding: 10px 12px !important;
+  margin-bottom: 6px !important;
+}
+
+#secao-login .separador-ou {
+  margin: 14px 0 10px !important;
+}
+
+#secao-login .btn-google {
+  padding: 14px !important;
+}
+
+#secao-login > div[style*="text-align:center"] {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Estilos adicionais para garantir o layout da HOME */
+#secao-home .beneficio-card {
+  padding: 10px 12px !important;
+  margin-bottom: 6px !important;
+}
+
+#secao-home .menu-btn-grande {
+  margin-top: 12px !important;
+  padding: 16px !important;
+}
+
+/* Loading é um overlay global — não depende da classe .ativa */
+#tela-loading {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 10000;
+  background: white;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+#tela-loading[style*="flex"] {
+  pointer-events: all;
+}
+
+/* ============================================================
+   FASE 4 - CLASSES DE VISIBILIDADE POR PERFIL
+   ============================================================ */
+
+/* Classe universal para esconder elementos */
+.esconder-elemento {
+  display: none !important;
+}
+
+/* Classes específicas por perfil (para marcação e futuras customizações) */
+.perfil-basico,
+.perfil-servicos,
+.perfil-premium {
+  position: relative;
+}
+.esconder-elemento { display: none !important; }
+
+/* ============================================================
+   ESTILOS ESPECÍFICOS PARA BLOCO DE SERVIÇOS
+   ============================================================ */
+
+#bloco-venda-servico label { 
+  font-size: 13px; 
+  color: #37474F; 
+  font-weight: 600; 
+  margin-bottom: 6px; 
+  display: block; 
+}
+
+#bloco-venda-servico input[type="time"], 
+#bloco-venda-servico input[type="text"] { 
+  width: 100%; 
+  padding: 12px; 
+  border: 1.5px solid #E0E0E0; 
+  border-radius: 8px; 
+  font-size: 16px !important; 
+  font-family: inherit; 
+}
+
+#bloco-venda-servico input[type="time"]:focus, 
+#bloco-venda-servico input[type="text"]:focus { 
+  outline: none; 
+  border-color: #1565C0; 
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1); 
+}
+
+/* Textarea para descrição do serviço */
+#bloco-venda-servico textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 15px !important;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+}
+
+#bloco-venda-servico textarea:focus {
+  outline: none;
+  border-color: #1565C0;
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1);
+}
+
+/* Grid compacto para campos lado a lado */
+#bloco-venda-servico .grid-compacto {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 480px) {
+  #bloco-venda-servico .grid-compacto {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* Margens mínimas para o bloco de serviço caber na tela mobile */
+#bloco-venda-servico {
+  margin: 0;
+  padding: 0;
+}
+
+#bloco-venda-servico > * {
+  margin-bottom: 8px;
+}
+
+#bloco-venda-servico > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Card de subtotal em destaque */
+#preview-subtotal-servico {
+  background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  transition: transform 0.2s ease;
+}
+
+#preview-subtotal-servico:hover {
+  transform: scale(1.02);
+}
+
+/* Estilo para datalists (smart inputs) */
+#bloco-venda-servico input[list] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+/* Transição suave para campos condicionais */
+#container-agencia,
+#container-horarios {
+  transition: all 0.3s ease;
+}
+
+/* Destaque visual para campo de agência */
+#container-agencia input {
+  border-color: #FF9800;
+  background-color: #FFF8E1;
+}
+
+#container-agencia input:focus {
+  border-color: #F57C00;
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
+}
+
+/* Animação suave ao mostrar campos condicionais */
+#container-agencia {
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilização adicional para inputs com datalist */
+#bloco-venda-servico input[list]:focus {
+  border-color: #1565C0;
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.15);
+}
+
+/* Cards do Hub de Gestão */
+.card-gestao:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.card-gestao:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+/* Grid de Gestão responsivo */
+@media (max-width: 480px) {
+  .gestao-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  
+  .card-gestao {
+    padding: 14px !important;
+  }
+}

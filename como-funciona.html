@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Como Funciona o BateCaixa 2.0 | ERP de Bolso Inteligente</title>
+  <meta name="description"
+    content="BateCaixa 2.0: Hub de Gestão Completo. Cadastre produtos/serviços, baixa automática de estoque, cálculo de lucro líquido e sincronização Firebase. Sistema Dual-Core para Lojistas e Prestadores.">
+  <meta name="keywords"
+    content="como funciona BateCaixa, PDV celular, controle de fiado, pendências, relatórios, upload recibos, estoque, compras, WhatsApp recibo">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="canonical" href="https://batecaixa.deab.com.br/como-funciona.html">
+
+  <!-- Open Graph (WhatsApp / Redes Sociais) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Como Funciona — BateCaixa 2.0">
+  <meta property="og:description"
+    content="Hub de Gestão Completo: Cadastre produtos/serviços, baixa automática de estoque, cálculo de lucro líquido e sincronização Firebase.">
+  <meta property="og:image" content="https://batecaixa.deab.com.br/logo.png">
+  <meta property="og:url" content="https://batecaixa.deab.com.br/como-funciona.html">
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Como Funciona — BateCaixa 2.0">
+  <meta name="twitter:description"
+    content="Hub de Gestão Completo: Cadastre produtos/serviços, baixa automática de estoque, cálculo de lucro líquido e sincronização Firebase.">
+  <meta name="twitter:image" content="https://batecaixa.deab.com.br/logo.png">
+
+  <style>
+    body { display: block; }
+    .marketing-page {
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 22px 0 110px;
+    }
+    .marketing-container {
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 16px;
+      box-sizing: border-box;
+    }
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .page-header .back-link {
+      background: #fff;
+      border: 1.5px solid var(--borda);
+      border-radius: 14px;
+      padding: 10px 14px;
+      text-decoration: none;
+      color: var(--texto);
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .page-header .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 1.5px solid var(--borda);
+      border-radius: 16px;
+      padding: 10px 12px;
+    }
+    .brand img { height: 38px; width: auto; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+    .hero-title {
+      font-size: clamp(24px, 4.5vw, 34px);
+      color: var(--azul);
+      font-weight: 900;
+      margin: 0 0 8px;
+      letter-spacing: -.6px;
+      line-height: 1.1;
+    }
+    .hero-sub {
+      color: var(--texto);
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0 0 16px;
+    }
+
+    .mockup {
+      background: #fff;
+      border: 1.5px solid var(--borda);
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.05);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .mockup::before {
+      content: "";
+      position: absolute;
+      top: -80px;
+      right: -60px;
+      width: 160px;
+      height: 160px;
+      background: rgba(21,101,192,.08);
+      border-radius: 50%;
+    }
+    .mockup-card {
+      background: var(--azul-cl);
+      border: 1px solid #90CAF9;
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 10px;
+      position: relative;
+    }
+    .mockup-card h3 {
+      margin: 0 0 6px;
+      font-size: 13px;
+      color: var(--azul-esc);
+      font-weight: 900;
+      letter-spacing: .2px;
+    }
+    .mockup-dots {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .mockup-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #E3F2FD;
+      border: 1.5px solid #90CAF9;
+    }
+
+    .section-title {
+      margin: 18px 0 10px;
+      color: #333;
+      font-weight: 900;
+      font-size: 16px;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .step-card {
+      background: #fff;
+      border: 1.5px solid var(--borda);
+      border-radius: 16px;
+      padding: 14px 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+      min-height: 138px;
+    }
+    .step-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      color: #fff;
+      background: linear-gradient(135deg, var(--azul), var(--azul-esc));
+      margin-bottom: 10px;
+    }
+    .step-card h3 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      color: #111;
+      font-weight: 900;
+    }
+    .step-card p {
+      margin: 0;
+      color: var(--texto);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+
+    .info-card {
+      background: #fff;
+      border: 1.5px solid var(--borda);
+      border-radius: 16px;
+      padding: 14px 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    }
+    .info-card .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 900;
+      color: var(--azul-esc);
+      background: var(--azul-cl);
+      border: 1px solid #90CAF9;
+      border-radius: 999px;
+      padding: 7px 10px;
+      margin-bottom: 10px;
+      font-size: 12px;
+    }
+    .info-card h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      font-weight: 900;
+      color: #1A237E;
+    }
+    .info-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--texto);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .info-card li { margin-bottom: 6px; }
+
+    .faq-wrap { margin-top: 6px; }
+    .faq-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: space-between;
+      margin: 0 0 12px;
+    }
+    .faq-title h2 { margin: 0; font-size: 16px; font-weight: 900; color: var(--azul); }
+
+    .faq-actions {
+      margin-top: 16px;
+      background: #fff;
+      border: 1.5px solid var(--borda);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .faq-actions p { margin: 0; color: var(--texto); font-size: 13px; line-height: 1.7; }
+
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid #e8eef2;
+    }
+    .footer-links a {
+      color: var(--azul-esc);
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 13px;
+    }
+    @media (max-width: 820px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="marketing-page">
+    <div class="marketing-container">
+      <header class="page-header">
+        <a class="back-link" href="index.html">← Voltar</a>
+        <div class="brand" aria-label="BateCaixa">
+          <img src="logo.png" alt="BateCaixa">
+        </div>
+      </header>
+
+      <div class="hero-grid">
+        <div>
+          <h1 class="hero-title">Como Funciona o BateCaixa 2.0</h1>
+          <p class="hero-sub">
+            Um passo a passo simples para ter um Hub de Gestão Completo na palma da mão. Sistema Dual-Core para Lojistas
+            e Prestadores, com baixa automática de estoque e cálculo de lucro líquido em tempo real.
+          </p>
+        </div>
+        <aside class="mockup" aria-hidden="true">
+          <div class="mockup-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="mockup-card">
+            <h3>📦 Hub de Gestão Inteligente</h3>
+            <div style="display:grid;gap:8px;">
+              <div style="background:#fff;border:1.5px solid #E3F2FD;border-radius:12px;padding:10px;">
+                <strong style="color:var(--azul-esc);font-size:13px;">Autocompletar Mágico</strong>
+                <p style="margin:4px 0 0;font-size:12px;color:var(--texto);">Sistema lembra preços e preenche tudo sozinho.</p>
+              </div>
+              <div style="background:#fff;border:1.5px solid #E8F5E9;border-radius:12px;padding:10px;">
+                <strong style="color:var(--verde);font-size:13px;">Baixa Automática de Estoque</strong>
+                <p style="margin:4px 0 0;font-size:12px;color:var(--texto);">Ao vender, o estoque baixa automaticamente.</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <h2 class="section-title">Passo a passo (3 minutos)</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3>Cadastre no Hub de Gestão</h3>
+          <p>Adicione seus produtos/serviços com preços e estoque. O sistema Dual-Core adapta-se ao seu perfil de negócio.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3>Registre a venda</h3>
+          <p>Selecione o produto/serviço e o sistema preenche tudo sozinho. Baixa automática de estoque e cálculo de lucro.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3>Acompanhe o Dashboard</h3>
+          <p>Veja receita, custos e lucro líquido em tempo real. Sincronização Firebase mantém tudo seguro na nuvem.</p>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="info-card">
+          <div class="tag">🧠 Cálculo de Lucro Líquido</div>
+          <h3>Tome decisões inteligentes com dados reais</h3>
+          <ul>
+            <li>Dashboard automático mostra receita, custos e lucro estimado.</li>
+            <li>Sistema calcula lucro por venda (Valor - Custo) × Quantidade.</li>
+            <li>Acompanhe a saúde financeira do negócio em tempo real.</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <div class="tag">☁️ Sincronização Firebase</div>
+          <h3>Seus dados seguros na nuvem do Google Cloud</h3>
+          <ul>
+            <li>Sincronização instantânea em tempo real entre dispositivos.</li>
+            <li>Comunicação criptografada de ponta a ponta.</li>
+            <li>Acesso de qualquer lugar, sem perder dados.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-wrap">
+        <div class="faq-title">
+          <h2>FAQ (Perguntas Frequentes)</h2>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Preciso de computador para usar?
+            </button>
+            <div class="faq-answer" aria-hidden="true">
+              Não. O BateCaixa 2.0 foi feito para o celular. Você gerencia produtos, serviços, estoque e lucros direto no app.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Como eu envio o recibo para o cliente?
+            </button>
+            <div class="faq-answer" aria-hidden="true">
+              Depois de salvar a venda, você abre o modal do recibo e clica em enviar no WhatsApp. Se quiser, você também pode baixar a imagem (PNG).
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Como funciona o Hub de Gestão?
+            </button>
+            <div class="faq-answer" aria-hidden="true">
+              No Hub de Gestão você cadastra produtos/serviços com preços e estoque. Ao lançar uma venda, o sistema preenche tudo
+              sozinho (autocompletar mágico) e dá baixa automática no estoque. É gestão inteligente sem burocracia.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Meus dados ficam seguros?
+            </button>
+            <div class="faq-answer" aria-hidden="true">
+              Sim. Seus dados são sincronizados instantaneamente nos servidores seguros do Firebase (Google Cloud) com comunicação
+              criptografada de ponta a ponta. Você mantém total propriedade sobre seus dados.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-actions">
+        <p>
+          Quer começar do zero hoje? Faça o <strong>Teste de 7 dias grátis</strong> e veja como o BateCaixa 2.0 transforma sua gestão
+          financeira com Hub de Gestão Completo e inteligência automática.
+        </p>
+      </div>
+
+      <div class="footer-links" aria-label="Links do site">
+        <a href="privacidade.html">Privacidade</a>
+        <a href="index.html">Voltar para o BateCaixa</a>
+      </div>
+    </div>
+  </div>
+
+  <a class="floating-cta" href="index.html">🚀 Começar Teste Grátis</a>
+
+  <script>
+    // Accordion simples
+    document.querySelectorAll(".faq-question").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var item = btn.closest(".faq-item");
+        var isOpen = item.classList.contains("open");
+        document.querySelectorAll(".faq-item.open").forEach(function (x) { x.classList.remove("open"); });
+        if (!isOpen) item.classList.add("open");
+        // Atualiza aria-expanded/hidden (compatibilidade)
+        document.querySelectorAll(".faq-item").forEach(function (it) {
+          var q = it.querySelector(".faq-question");
+          var a = it.querySelector(".faq-answer");
+          if (q && a) {
+            q.setAttribute("aria-expanded", it.classList.contains("open") ? "true" : "false");
+            a.setAttribute("aria-hidden", it.classList.contains("open") ? "false" : "true");
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+

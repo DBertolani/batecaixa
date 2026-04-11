@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BateCaixa 2.0 — O ERP de Bolso Inteligente | Hub de Gestão Completo</title>
+  <meta name="description"
+    content="BateCaixa 2.0: Sistema Dual-Core para Lojistas e Prestadores. Hub de Gestão de Estoque, Cálculo de Lucro Líquido e sincronização Firebase. Teste grátis por 7 dias.">
+  <meta name="keywords"
+    content="PDV no celular, gestão de caixa, controle de fiado, pendências, recibos WhatsApp, controle de estoque, compras com comprovantes, relatórios automáticos">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="canonical" href="https://batecaixa.deab.com.br/venda.html">
+
+  <!-- Open Graph (WhatsApp / Redes Sociais) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BateCaixa 2.0 — O ERP de Bolso Inteligente">
+  <meta property="og:description"
+    content="Hub de Gestão Completo: Baixa automática de estoque, cálculo de lucro líquido e sincronização Firebase. Sistema Dual-Core para Lojistas e Prestadores.">
+  <meta property="og:image" content="https://batecaixa.deab.com.br/logo.png">
+  <meta property="og:url" content="https://batecaixa.deab.com.br/venda.html">
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BateCaixa 2.0 — O ERP de Bolso Inteligente">
+  <meta name="twitter:description"
+    content="Hub de Gestão Completo: Baixa automática de estoque, cálculo de lucro líquido e sincronização Firebase.">
+  <meta name="twitter:image" content="https://batecaixa.deab.com.br/logo.png">
+
+  <style>
+    body { display: block; }
+    .marketing-page {
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 20px 0 70px;
+    }
+    .marketing-container {
+      width: 100%;
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 0 16px;
+      box-sizing: border-box;
+    }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 1.5px solid var(--borda);
+      border-radius: 16px;
+      padding: 10px 12px;
+    }
+    .brand img { height: 38px; width: auto; }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--ambar), var(--ambar-esc));
+      color: #fff;
+      font-weight: 900;
+      border: none;
+      border-radius: 18px;
+      padding: 16px 18px;
+      text-decoration: none;
+      box-shadow: 0 18px 40px rgba(225,97,0,.25);
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .btn-cta:active { transform: scale(.99); }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 16px;
+      align-items: center;
+      margin-top: 10px;
+      margin-bottom: 18px;
+    }
+    .hero-title {
+      font-size: clamp(26px, 4.8vw, 40px);
+      color: var(--azul);
+      font-weight: 900;
+      margin: 0 0 12px;
+      letter-spacing: -1px;
+      line-height: 1.05;
+    }
+    .hero-sub {
+      color: var(--texto);
+      font-size: 14px;
+      line-height: 1.8;
+      margin: 0 0 18px;
+    }
+    .hero-support {
+      color: #78909C;
+      font-size: 12px;
+      margin-top: 10px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin: 8px 0 18px;
+    }
+    .hero-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid var(--borda);
+      background: #fff;
+      color: var(--azul-esc);
+      font-weight: 900;
+      border-radius: 16px;
+      padding: 14px 16px;
+      text-decoration: none;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .mockup {
+      background: #fff;
+      border: 1.5px solid var(--borda);
+      border-radius: 22px;
+      box-shadow: 0 14px 35px rgba(0,0,0,.06);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      min-height: 360px;
+    }
+    .mockup::before {
+      content: "";
+      position: absolute;
+      top: -90px;
+      left: -70px;
+      width: 200px;
+      height: 200px;
+      background: rgba(21,101,192,.10);
+      border-radius: 50%;
+    }
+    .mockup-phone {
+      position: relative;
+      background: linear-gradient(180deg,#fff,#FAFCFF);
+      border-radius: 18px;
+      border: 1.5px solid var(--azul-cl);
+      padding: 12px;
+      box-shadow: 0 10px 22px rgba(0,0,0,.06);
+    }
+    .mockup-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .mockup-top .pill {
+      background: var(--azul-cl);
+      border: 1px solid #90CAF9;
+      color: var(--azul-esc);
+      font-weight: 900;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+    .mockup-cards {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .mini-card {
+      background: #fff;
+      border: 1.5px solid var(--borda);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .mini-card strong {
+      display: block;
+      font-weight: 900;
+      color: #111;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+    .mini-card p {
+      margin: 0;
+      color: var(--texto);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .mini-card.orange { border-left: 5px solid var(--ambar-esc); }
+    .mini-card.green { border-left: 5px solid var(--verde); }
+    .mini-card.purple { border-left: 5px solid var(--roxo); }
+
+    .section {
+      margin-top: 18px;
+    }
+    .section-title {
+      font-size: 18px;
+      color: #1A237E;
+      font-weight: 900;
+      margin: 0 0 10px;
+      letter-spacing: -.2px;
+    }
+    .section-sub {
+      color: var(--texto);
+      font-size: 14px;
+      line-height: 1.8;
+      margin: 0 0 14px;
+    }
+
+    .dor-solucao {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .panel {
+      background: #fff;
+      border: 1.5px solid var(--borda);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    }
+    .panel .kicker {
+      font-weight: 900;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      color: #78909C;
+      margin-bottom: 8px;
+    }
+    .panel h3 {
+      font-weight: 900;
+      margin: 0 0 8px;
+      color: #111;
+      font-size: 15px;
+      line-height: 1.3;
+    }
+    .panel p {
+      margin: 0;
+      color: var(--texto);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .benefit {
+      background: #fff;
+      border: 1.5px solid var(--borda);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .benefit .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      background: var(--azul-cl);
+      border: 1.5px solid #90CAF9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .benefit.orange .icon { background: var(--ambar-cl); border-color: #FFCC80; }
+    .benefit.green .icon { background: var(--verde-cl); border-color: #A5D6A7; }
+    .benefit.purple .icon { background: var(--roxo-cl); border-color: #E1BEE7; }
+    .benefit h3 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      color: #111;
+      font-weight: 900;
+    }
+    .benefit p {
+      margin: 0;
+      color: var(--texto);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .social-card {
+      background: #fff;
+      border: 1.5px solid var(--borda);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .price-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 12px;
+      align-items: start;
+      margin-top: 12px;
+    }
+    .price-card {
+      background: linear-gradient(135deg, #ffffff, #F8FAFF);
+      border: 1.5px solid var(--borda);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    }
+    .price-card .big {
+      font-size: 13px;
+      color: var(--texto);
+      line-height: 1.7;
+      margin: 0;
+    }
+    .price-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ambar-cl);
+      border: 1.5px solid #FFCC80;
+      color: var(--ambar-esc);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 900;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+    .price-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--texto);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    footer {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid #e8eef2;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    footer a {
+      color: var(--azul-esc);
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .mockup { min-height: 320px; }
+      .dor-solucao { grid-template-columns: 1fr; }
+      .benefits-grid { grid-template-columns: 1fr; }
+      .price-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="marketing-page">
+    <div class="marketing-container">
+      <div class="top-bar">
+        <div class="brand">
+          <img src="logo.png" alt="BateCaixa">
+        </div>
+      </div>
+
+      <!-- Hero Section -->
+      <section class="hero-grid" aria-label="Hero">
+        <div>
+          <h1 class="hero-title">BateCaixa 2.0: O ERP de Bolso Inteligente. O Hub de Gestão Completo na palma da mão.</h1>
+          <p class="hero-sub">
+            Sistema Dual-Core que se adapta perfeitamente ao seu negócio: Lojistas (com estoque) e Prestadores de Serviço.
+            Autocompletar Mágico de preços, cálculo automático de lucro líquido e sincronização em tempo real.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn-cta" href="index.html" rel="nofollow noopener">
+              🚀 Começar os meus 7 Dias Grátis
+            </a>
+            <a class="hero-secondary" href="como-funciona.html" rel="nofollow noopener">Veja como funciona</a>
+            <div class="hero-support">Sem compromisso. Cancele quando quiser.</div>
+          </div>
+        </div>
+
+        <!-- Mockup -->
+        <div class="mockup" aria-hidden="true">
+          <div class="mockup-phone">
+            <div class="mockup-top">
+              <div class="pill">📱 Caixa organizado</div>
+              <img src="logo.png" alt="" style="height:28px;width:auto;display:block;opacity:.95;">
+            </div>
+            <div class="mockup-cards">
+              <div class="mini-card orange">
+                <strong>📦 Hub de Gestão de Estoque</strong>
+                <p>Cadastre produtos/serviços e o sistema preenche tudo sozinho.</p>
+              </div>
+              <div class="mini-card green">
+                <strong>🧠 Cálculo de Lucro Líquido</strong>
+                <p>Dashboard automático com receita, custos e lucro estimado.</p>
+              </div>
+              <div class="mini-card purple">
+                <strong>☁️ Sincronização Firebase</strong>
+                <p>Seus dados seguros na nuvem do Google Cloud em tempo real.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dor vs Solução -->
+      <section class="section" aria-label="Dor e solução">
+        <h2 class="section-title">Cansado de perder tempo calculando lucros e controlando estoque manualmente?</h2>
+        <div class="dor-solucao">
+          <div class="panel">
+            <div class="kicker">Sem o BateCaixa 2.0</div>
+            <h3>Gestão manual e lenta</h3>
+            <p>
+              Perde tempo calculando lucros manualmente, controla estoque em planilhas, esquece preços dos produtos
+              e não sabe o lucro real do mês... Tudo isto rouba o seu tempo e impede decisões inteligentes.
+            </p>
+          </div>
+          <div class="panel">
+            <div class="kicker">Com o BateCaixa 2.0</div>
+            <h3>Inteligência Automática</h3>
+            <p>
+              Hub de Gestão Completo: baixa automática de estoque ao vender, cálculo de lucro líquido em tempo real,
+              autocompletar mágico de preços e sincronização instantânea na nuvem. Tudo automático e inteligente.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Solução e Benefícios -->
+      <section class="section" aria-label="Benefícios">
+        <h2 class="section-title">Por que escolher o BateCaixa 2.0?</h2>
+        <p class="section-sub">
+          Tudo o que você precisa para gerir seu negócio com inteligência e automação — Sistema Dual-Core para Lojistas e Prestadores.
+        </p>
+        <div class="benefits-grid">
+          <div class="benefit">
+            <div class="icon">📦</div>
+            <div>
+              <h3>Hub de Gestão Completo</h3>
+              <p>Cadastre produtos/serviços no Hub e o sistema preenche tudo sozinho ao vender. Baixa automática de estoque.</p>
+            </div>
+          </div>
+          <div class="benefit orange">
+            <div class="icon">🧠</div>
+            <div>
+              <h3>Cálculo de Lucro Líquido</h3>
+              <p>Dashboard automático mostra receita, custos e lucro estimado em tempo real. Tome decisões inteligentes.</p>
+            </div>
+          </div>
+          <div class="benefit green">
+            <div class="icon">✨</div>
+            <div>
+              <h3>Autocompletar Mágico</h3>
+              <p>O sistema lembra os preços dos seus produtos/serviços. Ao selecionar, preenche valor, quantidade e total automaticamente.</p>
+            </div>
+          </div>
+          <div class="benefit purple">
+            <div class="icon">☁️</div>
+            <div>
+              <h3>Sincronização Firebase em Tempo Real</h3>
+              <p>Seus dados sincronizados instantaneamente nos servidores seguros do Google Cloud. Acesso de qualquer dispositivo.</p>
+            </div>
+          </div>
+          <div class="benefit orange">
+            <div class="icon">🔄</div>
+            <div>
+              <h3>Sistema Dual-Core Inteligente</h3>
+              <p>Adapta-se perfeitamente: Lojistas (com estoque) e Prestadores de Serviço. Um sistema para todos os modelos de negócio.</p>
+            </div>
+          </div>
+          <div class="benefit green">
+            <div class="icon">🔒</div>
+            <div>
+              <h3>Segurança de Nível Empresarial</h3>
+              <p>Comunicação criptografada de ponta a ponta. Seus dados operacionais armazenados de forma ultra-segura no Firebase.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Prova social / quebra de objeções -->
+      <section class="section" aria-label="Prova social">
+        <div class="social-card">
+          <h2 class="section-title">Feito para quem quer gestão inteligente, não burocracia.</h2>
+          <p class="section-sub" style="margin:0;">
+            Não precisa de computadores caros, nem de sistemas complexos. O BateCaixa 2.0 foi desenhado para ser tão fácil
+            quanto usar um aplicativo de mensagens. Hub de Gestão Completo na palma da mão, onde quer que você esteja.
+          </p>
+        </div>
+      </section>
+
+      <!-- Preço/Planos -->
+      <section class="section" aria-label="Preço e CTA final">
+        <h2 class="section-title">Uma gestão profissional custa menos do que imagina.</h2>
+        <p class="section-sub">
+          Tenha a tranquilidade de um caixa organizado por um valor que cabe no orçamento de qualquer pequeno negócio.
+          Menos do que o preço de um café por mês para ter o seu financeiro sob controlo absoluto.
+        </p>
+
+        <div class="price-grid">
+          <div class="price-card">
+            <div class="price-badge">🛡️ Teste Grátis por 7 dias</div>
+            <p class="big">
+              Comece agora e use todas as funcionalidades sem compromisso. Você pode cancelar quando quiser.
+            </p>
+            <ul class="price-list">
+              <li>Hub de Gestão de Estoque</li>
+              <li>Cálculo Automático de Lucro Líquido</li>
+              <li>Autocompletar Mágico de Preços</li>
+              <li>Sincronização Firebase em Tempo Real</li>
+            </ul>
+            <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">
+              <a class="btn-cta" href="index.html" rel="nofollow noopener" style="max-width: 520px;">
+                💳 Ver Planos e Começar Agora
+              </a>
+            </div>
+          </div>
+
+          <div class="price-card">
+            <div class="price-badge" style="background:var(--verde-cl);border-color:#A5D6A7;color:var(--verde);">
+              🔒 Segurança Firebase (Google Cloud)
+            </div>
+            <p class="big" style="margin-bottom:12px;">
+              🛡️ Teste todas as funcionalidades gratuitamente durante 7 dias. Seus dados são sincronizados instantaneamente
+              nos servidores seguros do Google Cloud com comunicação criptografada de ponta a ponta.
+            </p>
+            <div style="background:#FFF8E1;border:1.5px solid #FFE082;border-radius:16px;padding:12px;">
+              <strong style="display:block;color:var(--ambar-esc);font-weight:900;margin-bottom:6px;">Dica rápida</strong>
+              <p style="margin:0;color:var(--texto);font-size:13px;line-height:1.7;">
+                Comece pelo Hub de Gestão: cadastre seus produtos/serviços e veja o sistema preencher tudo sozinho ao vender.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <a href="privacidade.html">Privacidade</a>
+        <a href="como-funciona.html">Como Funciona</a>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
+

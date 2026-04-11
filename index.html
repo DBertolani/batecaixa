@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <!-- SCRIPT CRÍTICO: Primeiro a executar - verifica sessão e aplica classes imediatamente -->
+  <script>
+    (function() {
+      try {
+        const userUid = localStorage.getItem("user_uid");
+        const userEmail = localStorage.getItem("user_email");
+        
+        if (userUid && userEmail) {
+          // Tem sessão - esconder home/login imediatamente
+          document.documentElement.classList.add('tem-sessao');
+          
+          // Guardar nome para loading
+          const nomeUsuario = localStorage.getItem("user_name") || localStorage.getItem("nomeOperador") || "Vendedor";
+          window.__nomeUsuarioLoading = nomeUsuario;
+        }
+      } catch (e) {
+        console.error("Erro ao verificar sessão:", e);
+      }
+    })();
+  </script>
+  
+  <!-- ESTILO CRÍTICO: Baseado na classe aplicada pelo script acima -->
+  <style>
+    /* Com sessao: esconder home/login, mostrar loading */
+    .tem-sessao #secao-home { display: none !important; }
+    .tem-sessao #secao-login { display: none !important; }
+    .tem-sessao #tela-login { display: none !important; }
+    .tem-sessao #secao-membro-email { display: none !important; }
+    .tem-sessao #tela-loading { display: flex !important; }
+  </style>
+
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1565C0">
+  <title>BateCaixa — O controle de caixa simples para o seu negócio</title>
+  <meta name="description"
+    content="Gerencie vendas, estoque e equipe de forma profissional e simplificada. Teste 7 dias grátis.">
+
+  <!-- SEO Open Graph (WhatsApp, Facebook, LinkedIn) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BateCaixa — O controle de caixa simples para o seu negócio">
+  <meta property="og:description"
+    content="Gerencie vendas, estoque e equipe de forma profissional e simplificada. Teste 7 dias grátis.">
+  <meta property="og:image" content="https://batecaixa.deab.com.br/logo.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:url" content="https://batecaixa.deab.com.br/">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="BateCaixa">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="BateCaixa — O controle de caixa simples para o seu negócio">
+  <meta name="twitter:description"
+    content="Gerencie vendas, estoque e equipe de forma profissional. Teste 7 dias grátis.">
+  <meta name="twitter:image" content="https://batecaixa.deab.com.br/logo.png">
+  <!-- Item 2: PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <!-- Favicon -->
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <!-- Item 2: Service Worker registration -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+          .then(() => console.log("BateCaixa SW registrado."))
+          .catch(err => console.warn("SW não registrado:", err));
+      });
+    }
+  </script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="toast-container" class="toast-container"></div>
+
+  <div class="container-app">
+  <!-- SEÇÃO HOME -->
+  <div id="secao-home" class="secao-app ativa">
+    <!-- HOME -->
+    <div id="tela-home">
+      <div style="width:100%;">
+        <div style="text-align:center;padding:40px 0 20px;">
+          <div class="logo-home"><img src="logo.png" alt="BateCaixa" class="logo-app logo-app--home"></div>
+          <h1 style="font-size:36px;font-weight:900;color:#1565C0;margin:12px 0 4px;letter-spacing:-2px;">BateCaixa 2.0</h1>
+          <p style="color:#546E7A;font-size:15px;margin:0;">O ERP de Bolso Inteligente — Sistema Dual-Core para Lojistas e Prestadores</p>
+        </div>
+        <div style="padding:0 0 10px;">
+          <div class="beneficio-card"><span class="beneficio-icon">☁️</span>
+            <div><strong>Nuvem Firebase em Tempo Real</strong>
+              <p>Seus dados sincronizados instantaneamente nos servidores seguros do Google Cloud.</p>
+            </div>
+          </div>
+          <div class="beneficio-card"><span class="beneficio-icon">🔄</span>
+            <div><strong>Sistema Dual-Core Inteligente</strong>
+              <p>Adapta-se perfeitamente: Lojistas (com estoque) e Prestadores de Serviço.</p>
+            </div>
+          </div>
+          <div class="beneficio-card"><span class="beneficio-icon">🧠</span>
+            <div><strong>Inteligência Automática</strong>
+              <p>Cálculo de Lucro Líquido, Baixa de Estoque e Autocompletar Mágico de Preços.</p>
+            </div>
+          </div>
+        </div>
+        <div
+          style="background:linear-gradient(135deg,#FF8F00,#E65100);border-radius:14px;padding:18px;text-align:center;margin:10px 0 16px;color:white;box-shadow:0 10px 25px rgba(230,81,0,.2);">
+          <div style="font-size:24px;">🎁</div>
+          <strong style="font-size:16px;">7 Dias Grátis</strong>
+          <p style="font-size:13px;margin:4px 0 0;opacity:.9;">Sem cartão de crédito.</p>
+        </div>
+        <button onclick="mostrarTelaLogin()" class="btn-primario"
+          style="background:linear-gradient(135deg,#FF8F00,#E65100);margin:0 0 12px;font-size:17px;padding:18px;">
+          🚀 Começar Teste Grátis
+        </button>
+        <button onclick="mostrarTelaLogin()" class="btn-voltar" style="font-size:15px;padding:15px;">🔑 Já tenho
+          conta</button>
+        <button onclick="document.getElementById('modal-novidades-v2').style.display='flex'" class="btn-voltar" style="font-size:14px;padding:13px;color:#1565C0;border-color:#90CAF9;background:#E3F2FD;margin-top:10px;">✨ Ver novidades da Versão 2.0</button>
+        <button onclick="mostrarTela('secao-membro-email')" class="btn-voltar"
+          style="font-size:14px;padding:13px;color:#3949AB;border-color:#9FA8DA;background:#E8EAF6;margin-top:10px;">👥
+          Sou funcionário / membro de uma equipe</button>
+        <!-- Problema vs Solução -->
+        <div style="margin-top:18px;padding:14px 0 0;">
+          <div style="display:grid;grid-template-columns:1fr;gap:10px;">
+            <div
+              style="background:#FFF8E1;border:1.5px solid #FFE082;border-radius:12px;padding:14px 15px;text-align:left;">
+              <div style="font-weight:900;color:#E65100;margin-bottom:6px;">😮 Problema</div>
+              <div style="color:#546E7A;font-size:13px;line-height:1.6;">
+                Sua gestão financeira vira bagunça: você perde tempo calculando lucros, controlando estoque manualmente
+                e esquecendo de registrar vendas importantes.
+              </div>
+            </div>
+            <div
+              style="background:#E3F2FD;border:1.5px solid #90CAF9;border-radius:12px;padding:14px 15px;text-align:left;">
+              <div style="font-weight:900;color:#0D47A1;margin-bottom:6px;">✅ Solução</div>
+              <div style="color:#546E7A;font-size:13px;line-height:1.6;">
+                No BateCaixa 2.0 você tem um Hub de Gestão Completo: baixa automática de estoque, cálculo de lucro líquido,
+                histórico detalhado e sincronização em nuvem — tudo automático e inteligente.
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Depoimentos / Benefícios extras -->
+        <div style="margin-top:14px;">
+          <div style="text-align:left;font-weight:900;color:#333;margin:12px 0 8px;font-size:14px;">⭐ Benefícios que
+            você sente</div>
+          <div style="display:grid;grid-template-columns:1fr;gap:10px;">
+            <div class="beneficio-card" style="margin-bottom:0;">
+              <span class="beneficio-icon">📦</span>
+              <div>
+                <strong>Hub de Gestão de Estoque</strong>
+                <p>Cadastre produtos/serviços e o sistema preenche tudo sozinho ao vender.</p>
+              </div>
+            </div>
+            <div class="beneficio-card" style="margin-bottom:0;">
+              <span class="beneficio-icon">📊</span>
+              <div>
+                <strong>Dashboard com Lucro Líquido</strong>
+                <p>Veja receita, custos e lucro estimado em tempo real no seu celular.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:22px;padding-bottom:20px;"><a href="#"
+            onclick="abrirModalFeedback(event)" style="color:#90A4AE;font-size:13px;text-decoration:none;">💡 Deixar uma
+            sugestão</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO LOGIN -->
+  <div id="secao-login" class="secao-app">
+    <div style="width:100%;text-align:center;">
+      <div class="logo-home logo-home--sm" style="margin:0 auto 20px;"><img src="logo.png" alt="BateCaixa"
+          class="logo-app logo-app--login"></div>
+      <h2 style="font-size:24px;color:#1565C0;margin:0 0 6px;font-weight:900;">Entrar no BateCaixa</h2>
+      <p style="color:#78909C;font-size:14px;margin:0 0 25px;">Gestão financeira simples para o seu negócio.</p>
+      <button onclick="solicitarLogin()" class="btn-google">
+        <svg width="20" height="20" viewBox="0 0 48 48" style="flex-shrink:0;">
+          <path fill="#EA4335"
+            d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+          <path fill="#4285F4"
+            d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+          <path fill="#FBBC05"
+            d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+          <path fill="#34A853"
+            d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+        </svg>
+        Entrar com Google
+      </button>
+      <div
+        style="background:#f8f9fa;border-radius:12px;border:1px solid #eee;padding:15px;margin-top:20px;text-align:left;">
+        <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;font-size:13px;color:#555;">
+          <input type="checkbox" id="aceito-termos" style="margin-top:3px;transform:scale(1.3);accent-color:#1565C0;">
+          <span>Aceito os <a href="#" onclick="abrirModalTermos(event)" style="color:#1565C0;font-weight:600;">Termos
+              de Uso</a> e a <a href="privacidade.html" target="_blank"
+              style="color:#1565C0;font-weight:600;">Política de Privacidade</a>.</span>
+        </label>
+        <div class="separador-ou"><span>ou</span></div>
+        <button onclick="mostrarTela('secao-membro-email')"
+          style="width:100%;padding:14px;background:#E8EAF6;border:1.5px solid #9FA8DA;border-radius:12px;font-size:14px;font-weight:700;color:#3949AB;cursor:pointer;font-family:inherit;">👥
+          Sou funcionário / entrar como membro</button>
+        <button onclick="mostrarTela('secao-home')" class="btn-voltar"
+          style="margin-top:15px;color:#90A4AE;border-color:#E0E0E0;">← Voltar</button>
+      </div>
+    </div>
+  </div>
+  <!-- FIM DA SEÇÃO LOGIN -->
+
+  <!-- MEMBRO: digita e-mail -->
+  <!-- MEMBRO: passo 1 — digita e-mail + verificação prévia (Item 2) -->
+  <div id="secao-membro-email" class="secao-app">
+      <div style="width:100%;text-align:center;">
+        <div style="font-size:56px;margin-bottom:15px;margin-top:40px;">👥</div>
+        <h2 style="font-size:22px;color:#3949AB;font-weight:900;margin:0 0 8px;">Acesso de Membro</h2>
+        <p style="color:#546E7A;font-size:14px;margin:0 0 25px;line-height:1.5;">Digite o e-mail cadastrado pelo
+          responsável da loja.</p>
+        <form id="form-membro-email" onsubmit="verificarEmailMembro(event)">
+          <label style="text-align:left;">Seu e-mail:</label>
+          <input type="email" id="membro-email-input" placeholder="seu@email.com" required inputmode="email"
+            autocomplete="email" style="font-size:17px !important;text-align:center;">
+          <button type="submit" id="btn-verificar-email" class="btn-primario"
+            style="background:#3949AB;margin-top:20px;">🔍 Verificar Acesso</button>
+        </form>
+        <div style="background:#E8EAF6;border-radius:10px;padding:12px 15px;margin-top:20px;text-align:left;">
+          <p style="font-size:12px;color:#3949AB;margin:0;line-height:1.6;">ℹ️ O responsável da loja precisa ter
+            cadastrado seu e-mail em <strong>Configurações → Membros</strong> antes do primeiro acesso.</p>
+        </div>
+        <button onclick="mostrarTela('secao-home')" class="btn-voltar"
+          style="margin-top:15px;color:#90A4AE;border-color:#E0E0E0;">← Voltar</button>
+      </div>
+    </div>
+
+  <!-- DASHBOARD E OUTRAS TELAS -->
+  <div id="container-app" class="container-app">
+      <!-- CONTEÚDO ATUAL DO APP FICA AQUI -->
+    <div id="tela-membro-confirmado" style="display:none;">
+      <div style="width:100%;text-align:center;">
+        <div style="font-size:56px;margin-bottom:15px;margin-top:40px;">✅</div>
+        <h2 style="font-size:22px;color:#2E7D32;font-weight:900;margin:0 0 10px;">Funcionário Identificado!</h2>
+        <p style="color:#546E7A;font-size:14px;margin:0 0 6px;">Você é membro da equipe de:</p>
+        <p id="membro-nome-loja-confirmado" style="font-size:18px;font-weight:900;color:#1565C0;margin:0 0 4px;"></p>
+        <p id="membro-papel-confirmado" style="font-size:13px;color:#78909C;margin:0 0 25px;"></p>
+        <div
+          style="background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:12px;padding:16px;margin-bottom:20px;text-align:left;">
+          <p style="font-size:14px;color:#2E7D32;margin:0;line-height:1.6;">📨 Enviaremos um código de acesso
+            para:<br><strong id="membro-email-confirmado-exibido" style="color:#1565C0;"></strong></p>
+        </div>
+        <button id="btn-enviar-codigo-confirmado" onclick="enviarCodigoAposConfirmacao()" class="btn-primario"
+          style="background:#3949AB;">📨 Enviar Código por E-mail</button>
+        <button onclick="mostrarTela('secao-membro-email')" class="btn-voltar" style="margin-top:10px;">← Trocar
+          e-mail</button>
+      </div>
+    </div>
+
+    <!-- MEMBRO: digita código OTP -->
+    <div id="tela-membro-codigo" style="display:none;">
+      <div style="width:100%;text-align:center;">
+        <div style="font-size:56px;margin-bottom:15px;margin-top:40px;">🔑</div>
+        <h2 style="font-size:22px;color:#3949AB;font-weight:900;margin:0 0 8px;">Inserir Código de Acesso</h2>
+        <p style="color:#546E7A;font-size:14px;margin:0 0 6px;">Acessando como:</p>
+        <p id="membro-email-exibido" style="font-size:15px;font-weight:700;color:#333;margin:0 0 15px;"></p>
+        <div
+          style="background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:12px;padding:13px;margin-bottom:18px;text-align:left;">
+          <p style="font-size:13px;color:#2E7D32;margin:0;line-height:1.6;">
+            📧 <strong>Use o código do e-mail de convite</strong> que chegou quando o responsável te cadastrou.<br>
+            <span style="color:#78909C;font-size:12px;">Código expirado ou não recebeu? Use o botão abaixo.</span>
+          </p>
+        </div>
+        <form id="form-membro-codigo" onsubmit="validarCodigoMembro(event)">
+          <label style="text-align:left;">Código de 6 dígitos:</label>
+          <input type="text" id="membro-codigo-input" inputmode="numeric" pattern="[0-9]{6}" maxlength="6"
+            placeholder="000000" autocomplete="one-time-code"
+            style="font-size:34px !important;letter-spacing:12px;text-align:center;font-weight:900;">
+          <p id="info-codigo" style="font-size:12px;color:#90A4AE;margin:8px 0 0;">⏱️ Código válido por 10 minutos.</p>
+          <button type="submit" id="btn-validar-codigo" class="btn-primario"
+            style="background:#3949AB;margin-top:20px;">✅ Entrar</button>
+        </form>
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid #eee;">
+          <p style="font-size:13px;color:#90A4AE;margin:0 0 10px;">Código expirado ou não encontrou o e-mail?</p>
+          <button id="btn-solicitar-codigo" onclick="solicitarCodigoMembro()" class="btn-voltar"
+            style="color:#3949AB;border-color:#9FA8DA;background:#E8EAF6;font-weight:700;">📨 Enviar novo código por
+            e-mail</button>
+        </div>
+        <button onclick="mostrarTela('secao-membro-email')" class="btn-voltar"
+          style="margin-top:10px;color:#90A4AE;border-color:#E0E0E0;">← Trocar e-mail</button>
+      </div>
+    </div>
+
+    <!-- LOADING -->
+    <div id="tela-loading"
+      style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:10000;background:white;flex-direction:column;justify-content:center;align-items:center;">
+      <div class="logo-loading-container" aria-hidden="true">
+        <img src="logo.png" alt="BateCaixa" class="logo-app logo-app--login logo-loading-logo">
+      </div>
+      <h2 style="font-size:22px;color:#1565C0;margin:0 0 8px;font-weight:900;text-align:center;">Olá, <span
+          id="nome-loading" style="color:#FF8F00;">...</span>! 👋</h2>
+      <p style="color:#90A4AE;font-size:14px;margin:0 0 30px;">Abrindo seu caixa...</p>
+      <div class="loader"></div>
+      
+      <script>
+        // Atualiza nome imediatamente se disponível
+        (function() {
+          const nome = localStorage.getItem("user_name") || localStorage.getItem("nomeOperador") || "";
+          if (nome) {
+            document.getElementById("nome-loading").textContent = nome;
+          }
+        })();
+      </script>
+    </div>
+
+    <!-- TRIAL -->
+    <div id="tela-trial"
+      style="display:none;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:100vh;padding:30px 0;">
+      <div style="font-size:64px;margin-bottom:15px;">🎁</div>
+      <h2 style="font-size:26px;color:#1565C0;font-weight:900;margin:0 0 12px;">Bem-vindo ao BateCaixa!</h2>
+      <p style="color:#546E7A;font-size:15px;line-height:1.6;margin:0 0 25px;">Teste todas as funcionalidades por
+        <strong>7 dias completamente grátis</strong>.
+      </p>
+      <div style="width:100%;text-align:left;background:#f8f9fa;border-radius:14px;padding:20px;margin-bottom:25px;">
+        <div class="check-item">✅ Lançamento de vendas ilimitado</div>
+        <div class="check-item">✅ Venda individual ou fechamento do dia</div>
+        <div class="check-item">✅ Convide funcionários com acesso seguro</div>
+        <div class="check-item">✅ Relatórios automáticos</div>
+      </div>
+      <button onclick="iniciarTrialGratis()" class="btn-primario"
+        style="background:linear-gradient(135deg,#2E7D32,#1B5E20);font-size:17px;padding:18px;margin:0;">🚀 Iniciar meus
+        7 Dias Grátis</button>
+      <p style="font-size:12px;color:#90A4AE;margin-top:12px;">Sem cartão de crédito.</p>
+    </div>
+
+    <!-- BLOQUEIO -->
+    <div id="tela-bloqueio"
+      style="display:none;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:100vh;padding:30px 0;">
+      <div style="font-size:64px;margin-bottom:15px;">🔒</div>
+      <h2 style="font-size:24px;color:#C62828;font-weight:900;margin:0 0 12px;">Acesso Encerrado</h2>
+      <p style="color:#555;font-size:14px;margin:0 0 10px;"><strong id="email-bloqueado" style="color:#333;"></strong>
+      </p>
+      <div
+        style="background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:15px;margin:10px 0 20px;width:100%;">
+        <p id="motivo-bloqueio" style="color:#E65100;font-size:14px;font-weight:600;margin:0;"></p>
+      </div>
+      <a href="https://wa.me/5527996962395?text=Olá!%20Preciso%20renovar%20meu%20acesso%20ao%20BateCaixa."
+        target="_blank" class="btn-primario"
+        style="background:#25D366;text-decoration:none;display:block;text-align:center;font-size:16px;padding:16px;margin:0 0 12px;">📲
+        Chamar no WhatsApp</a>
+      <button onclick="logout()" class="btn-voltar">← Sair</button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <!-- Item 2: barra offline -->
+    <div id="aviso-offline"
+      style="display:none;position:fixed;top:0;left:0;right:0;z-index:99990;background:#C62828;color:#fff;text-align:center;font-size:13px;font-weight:700;padding:10px 16px;">
+      ⚠️ Você está sem internet. Lançamentos podem falhar.
+    </div>
+
+    <div id="tela-dashboard" style="display:none;padding:16px 16px 20px;">
+
+      <!-- Item 1: Cabeçalho reestruturado -->
+      <div class="dash-header">
+        <!-- Esquerda: logo -->
+        <img src="logo.png" alt="BateCaixa" class="logo-app logo-app--header">
+        <!-- Centro: saudação + operador -->
+        <div class="dash-header-center">
+          <span class="dash-saudacao">Olá, <span id="dash-nome-operador">—</span></span>
+        </div>
+        <!-- Direita: botão sair -->
+        <a href="#" onclick="logout()" class="dash-btn-sair" title="Sair" style="display:flex;align-items:center;gap:6px;text-decoration:none;">
+          <span style="font-size:12px;line-height:1;">Sair</span>
+          <span style="font-size:16px;line-height:1;">⏻</span>
+        </a>
+      </div>
+
+      <!-- Nome da loja em destaque abaixo do header -->
+      <h2 id="nome-loja-dash" class="dash-nome-loja"></h2>
+
+      <!-- Banner membro -->
+      <div id="banner-membro"
+        style="display:none;background:#E8EAF6;border:1px solid #9FA8DA;border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:12px;color:#3949AB;">
+        👤 Você está como <strong id="papel-membro"></strong> de <strong id="loja-membro"></strong>
+        &nbsp;·&nbsp;
+        <button onclick="abrirSeletorOperador()"
+          style="background:none;border:none;color:#3949AB;font-weight:700;cursor:pointer;font-family:inherit;font-size:12px;padding:0;">✏️
+          Trocar operador</button>
+      </div>
+
+      <!-- Banner trial -->
+      <div id="banner-trial"
+        style="display:none;background:#FFF8E1;border:1px solid #FFB300;border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#E65100;font-weight:600;text-align:center;">
+        ⚠️ Seu teste termina amanhã!
+        <a href="#" onclick="abrirModalPlanos();return false;"
+          style="color:#1565C0;text-decoration:underline;font-weight:700;">⭐ Ver Planos</a>
+      </div>
+      <!-- Navegação de Mês -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0;">
+        <button onclick="navegarMes(-1)" style="width:36px;height:36px;border:1.5px solid #90CAF9;border-radius:50%;background:white;color:#1565C0;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;">◀</button>
+        <span id="dash-mes-display" style="font-size:14px;font-weight:700;color:#1565C0;min-width:100px;text-align:center;">Abril 2026</span>
+        <button id="btn-hoje-mes" onclick="voltarMesAtual()" style="display:none;padding:4px 10px;background:#E3F2FD;border:1.5px solid #90CAF9;border-radius:8px;color:#1565C0;font-size:11px;font-weight:700;cursor:pointer;">Hoje</button>
+        <button onclick="navegarMes(1)" style="width:36px;height:36px;border:1.5px solid #90CAF9;border-radius:50%;background:white;color:#1565C0;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;">▶</button>
+      </div>
+
+      <!-- Faturamento Consolidado Principal -->
+      <div class="card-metrica azul" style="background:linear-gradient(135deg,#1565C0,#0D47A1);position:relative;">
+        <div id="faturamento-consolidado-header" style="display:flex;justify-content:center;align-items:center;height:100%;">
+          <div style="text-align:center;">
+            <p class="card-metrica-titulo" style="margin-bottom:4px;">
+              Faturamento Consolidado
+              <span class="info-icon" title="Cálculo Inteligente: Soma do maior valor diário (Fechamento ou Vendas Individuais) para evitar duplicidade">ℹ️</span>
+            </p>
+            <p class="card-metrica-valor" id="receita-hoje" style="font-size:28px;font-weight:900;text-align:center;">R$ 0,00</p>
+            <p id="hoje-detalhe" style="font-size:10px;color:#90CAF4;margin-top:4px;text-align:center;">Vendas: R$ 0 | Fechamento: R$ 0</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Item: Fiado do Mês -->
+      <div class="card-metrica ambar">
+        <p class="card-metrica-titulo" id="titulo-card-receber">A Receber (Fiados do Mês)</p>
+        <p class="card-metrica-valor" id="fiados-mes" style="text-align:center;">R$ 0,00</p>
+      </div>
+      
+      <!-- Receita do Mês -->
+      <div class="card-metrica" style="background:linear-gradient(135deg,#0D47A1,#1A237E);">
+        <p class="card-metrica-titulo">Receita do Mês</p>
+        <p class="card-metrica-valor" id="receita-mes" style="text-align:center;">R$ 0,00</p>
+        <p id="mes-detalhe" style="font-size:10px;color:#90CAF4;margin-top:4px;text-align:center;">Individuais: R$ 0 | Fechamentos: R$ 0</p>
+      </div>
+      
+      <!-- Compras do Mês -->
+      <div class="card-metrica ambar">
+        <p class="card-metrica-titulo">Compras do Mês</p>
+        <p class="card-metrica-valor" id="compras-mes" style="text-align:center;">R$ 0,00</p>
+      </div>
+      <div id="barra-meta-container"
+        style="display:none;margin-top:5px;background:#f5f7fa;border-radius:12px;padding:14px;border:1px solid #e0e0e0;">
+        <div
+          style="display:flex;justify-content:space-between;font-size:12px;color:#666;margin-bottom:7px;font-weight:600;">
+          <span>🎯 Meta do Mês</span><span id="meta-percentual" style="color:#1565C0;">0%</span>
+        </div>
+        <div style="background:#E3F2FD;border-radius:10px;height:10px;overflow:hidden;">
+          <div id="barra-meta-progresso"
+            style="height:100%;background:linear-gradient(90deg,#1565C0,#42A5F5);border-radius:10px;transition:width .7s ease;width:0%;">
+          </div>
+        </div>
+        <div style="text-align:right;font-size:11px;color:#90A4AE;margin-top:5px;">Meta: <span id="meta-valor">R$
+            0,00</span></div>
+      </div>
+      <div id="menu-dono">
+        <div class="menu-grid" style="margin-top:20px;">
+          <button id="btn-home-vendas" class="menu-btn" onclick="abrirLancarVendas()">
+            <div class="menu-icon">💵</div>
+            <div class="menu-text">Lançar Vendas</div>
+          </button>
+          <button id="btn-home-fechar-caixa" class="menu-btn" onclick="abrirFecharCaixa()">
+            <div class="menu-icon">📠</div>
+            <div class="menu-text">Fechar Caixa</div>
+          </button>
+          <button class="menu-btn" onclick="abrirHistorico()">
+            <div class="menu-icon">📋</div>
+            <div class="menu-text">Histórico</div>
+          </button>
+          <button class="menu-btn" onclick="abrirRelatorios()">
+            <div class="menu-icon">📊</div>
+            <div class="menu-text">Relatórios</div>
+          </button>
+          <button id="btn-menu-gestao" class="menu-btn" onclick="abrirTelaGestao()">
+            <div class="menu-icon">🗂️</div>
+            <div class="menu-text">Gestão</div>
+          </button>
+          <button class="menu-btn" onclick="abrirConfiguracoes()">
+            <div class="menu-icon">⚙️</div>
+            <div class="menu-text">Configurações</div>
+          </button>
+        </div>
+        <!-- FASE 11.8: Botão oculto - estoque agora é gerenciado no Hub -->
+        <button id="btn-home-compras" onclick="abrirCompras()"
+          style="margin-top:15px;width:100%;background:#FFF8E1;border:1.5px solid #FFE082;color:#E65100;border-radius:12px;padding:15px;font-weight:700;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;display:none !important;">🧾
+          Compras / Despesas</button>
+      </div>
+      <div id="menu-vendedor" style="display:none;">
+        <button class="menu-btn-grande" onclick="abrirLancarVendas()">💵 Lançar Venda</button>
+        <button class="menu-btn-grande" style="background:#E3F2FD;color:#1565C0;border-color:#90CAF9;"
+          onclick="abrirHistorico()">📋 Ver Histórico</button>
+      </div>
+      <div id="menu-gerente" style="display:none;">
+        <div class="menu-grid" style="margin-top:20px;">
+          <button class="menu-btn" onclick="abrirLancarVendas()">
+            <div class="menu-icon">💵</div>
+            <div class="menu-text">Lançar Vendas</div>
+          </button>
+          <button class="menu-btn" onclick="abrirHistorico()">
+            <div class="menu-icon">📋</div>
+            <div class="menu-text">Histórico</div>
+          </button>
+          <button class="menu-btn" onclick="abrirRelatorios()">
+            <div class="menu-icon">📊</div>
+            <div class="menu-text">Relatórios</div>
+          </button>
+          <button class="menu-btn" onclick="abrirCompras()">
+            <div class="menu-icon">🧾</div>
+            <div class="menu-text">Compras</div>
+          </button>
+        </div>
+      </div>
+      <button id="btn-admin" onclick="abrirAdmin()"
+        style="display:none;margin-top:15px;width:100%;background:#F3E5F5;border:2px solid #9C27B0;color:#4A148C;border-radius:12px;padding:14px;font-weight:700;cursor:pointer;font-size:14px;font-family:inherit;">🔑
+        Painel Master Admin</button>
+      <div style="text-align:center;margin-top:25px;padding-bottom:30px;"><a href="#"
+          onclick="abrirModalFeedback(event)" style="color:#B0BEC5;font-size:13px;text-decoration:none;">💡 Enviar
+          sugestão</a></div>
+    </div>
+
+    <!-- LANÇAR VENDAS -->
+    <div id="tela-lancar-vendas" style="display:none;padding:20px;">
+      <div class="header-tela">
+        <button class="btn-voltar-topo" onclick="voltarDashboard()">⬅</button>
+        <h2 id="titulo-form-venda">Lançar Venda</h2>
+        <div style="width:40px;"></div>
+      </div>
+      <form id="form-venda" onsubmit="salvarVenda(event)">
+        <input type="hidden" id="venda-docId-edicao">
+        <input type="hidden" id="venda-modo" value="individual">
+        <label>Data:</label>
+        <input type="date" id="vd-data" required>
+        <!-- ── CAMPOS MODO INDIVIDUAL ─────────────────────────── -->
+        <div id="campos-individual">
+          <!-- Tipo de Lançamento (escondido no varejo, visível apenas em serviços) -->
+          <div id="bloco-tipo-lancamento" style="margin-bottom:12px;">
+            <label style="font-weight:600;color:#37474F;margin-bottom:4px;display:block;">Tipo de Lançamento:</label>
+            <div style="display:flex;gap:15px;">
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;">
+                <input type="radio" name="tipo-item" value="produto" checked onchange="alternarTipoItemVenda()">
+                <span>Produto</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;">
+                <input type="radio" name="tipo-item" value="servico" onchange="alternarTipoItemVenda()">
+                <span>Serviço</span>
+              </label>
+            </div>
+          </div>
+
+          <label>Cliente (opcional):</label>
+          <input type="text" id="vd-cliente" list="lista-clientes-varejo"
+            placeholder="Nome do cliente" autocomplete="off">
+          <datalist id="lista-clientes-varejo"></datalist>
+          
+          <div id="bloco-venda-produto">
+            <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 10px;">
+              <div>
+                <label>Produto:</label>
+                <input type="text" id="vd-descricao" list="lista-produtos-varejo" placeholder="Ex: Calça jeans, Camiseta..." autocomplete="off"
+                  onchange="onProdutoSelecionadoVarejo(this.value); calcularTotalVarejo();" onkeyup="calcularTotalVarejo();">
+                <datalist id="lista-produtos-varejo"></datalist>
+              </div>
+              <div>
+                <label>Qtd:</label>
+                <input type="number" id="vd-quantidade" value="1" min="1" style="text-align:center;" oninput="calcularTotalVarejo()" onchange="calcularTotalVarejo()" onkeyup="calcularTotalVarejo()">
+              </div>
+            </div>
+          </div>
+
+          <!-- Status de Recebimento (controla as opções de pagamento) -->
+          <label>Status do Recebimento:</label>
+          <select id="v-status" onchange="onStatusVarejoChange()">
+            <option value="Pago" selected>✅ Recebido (Pago)</option>
+            <option value="Pendente">⏳ Fiado (Pendente)</option>
+          </select>
+
+          <!-- Forma de Pagamento (condicional: só aparece se Status = Pago) -->
+          <div id="container-forma-pagamento-varejo">
+            <label>Forma de Pagamento:</label>
+            <div class="pagamento-grid">
+              <label class="radio-pagamento"><input type="radio" name="forma-pag" value="dinheiro" checked>
+                💵 Dinheiro</label>
+              <label class="radio-pagamento"><input type="radio" name="forma-pag" value="pix">
+                📱 PIX</label>
+              <label class="radio-pagamento"><input type="radio" name="forma-pag" value="debito">
+                💳 Débito</label>
+              <label class="radio-pagamento"><input type="radio" name="forma-pag" value="credito">
+                💳 Crédito</label>
+            </div>
+          </div>
+
+          <!-- Valores: Unitário e Total lado a lado -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label>Valor Unitário (R$):</label>
+              <input type="text" id="vd-valor-individual" inputmode="numeric" placeholder="0,00"
+                oninput="formatarMoeda(this); calcularTotalVarejo();"
+                style="font-size:20px !important;font-weight:700;text-align:center;">
+            </div>
+            <div>
+              <label>Valor Total (R$):</label>
+              <input type="text" id="vd-valor" inputmode="numeric" placeholder="0,00"
+                oninput="formatarMoeda(this);"
+                style="font-size:32px !important;font-weight:900;text-align:center;color:#1565C0;">
+            </div>
+          </div>
+          
+          <div id="bloco-venda-servico" style="display:none;">
+            <!-- Data (movido para dentro do bloco) -->
+            <label>Data do Atendimento:</label>
+            <input type="date" id="vd-data-servico" required>
+
+            <!-- O que foi feito? -->
+            <label>O que foi feito?</label>
+            <input type="text" id="vd-descricao-servico" list="lista-tipos-servico" placeholder="Ex: Tradução simultânea, Revisão de texto...">
+            <datalist id="lista-tipos-servico"></datalist>
+
+            <!-- Quem executou? -->
+            <label>Quem executou?</label>
+            <input type="text" id="vd-executante" list="lista-executantes" placeholder="Nome do executante/intérprete">
+            <datalist id="lista-executantes"></datalist>
+
+            <!-- Contratação (Particular / Agência) - Lado a lado -->
+            <label>Contratação:</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px;">
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;margin-top:0;padding:8px;border:1px solid #ddd;border-radius:6px;">
+                <input type="radio" name="tipo-contratacao" value="particular" checked onchange="alternarTipoContratacao()">
+                <span>👤 Particular</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;margin-top:0;padding:8px;border:1px solid #ddd;border-radius:6px;">
+                <input type="radio" name="tipo-contratacao" value="agencia" onchange="alternarTipoContratacao()">
+                <span>🏢 Agência</span>
+              </label>
+            </div>
+
+            <!-- Nome da Agência (só aparece quando seleciona Agência) -->
+            <div id="container-agencia" style="display: none; margin-bottom: 8px;">
+              <label>Nome da Agência:</label>
+              <input type="text" id="vd-nome-agencia" list="lista-agencias" placeholder="Selecione ou digite a agência" onchange="onAgenciaChange()" onblur="onAgenciaChange()">
+              <datalist id="lista-agencias"></datalist>
+              <!-- Campo hidden para armazenar valor por hora da agência -->
+              <input type="hidden" id="vd-valor-hora-agencia-hidden" value="0">
+            </div>
+
+            <!-- Cliente/Empresa Final -->
+            <label>Cliente/Empresa Final:</label>
+            <input type="text" id="vd-cliente-final" list="lista-clientes-servico" placeholder="Nome do cliente ou empresa contratante">
+            <datalist id="lista-clientes-servico"></datalist>
+
+            <!-- Modelo de Cobrança (PRIMEIRO - decide os próximos campos) -->
+            <label style="margin-top: 10px;">Modelo de Cobrança:</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px;">
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;margin-top:0;padding:8px;border:1px solid #ddd;border-radius:6px;">
+                <input type="radio" name="modelo-cobranca" value="por-hora" checked onchange="alternarModeloCobranca()">
+                <span>🕐 Por Hora</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;margin-top:0;padding:8px;border:1px solid #ddd;border-radius:6px;">
+                <input type="radio" name="modelo-cobranca" value="valor-fixo" onchange="alternarModeloCobranca()">
+                <span>💰 Valor Fixo</span>
+              </label>
+            </div>
+
+            <!-- Horários (Início / Término) - Só aparece em "Por Hora" -->
+            <div id="container-horarios" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+              <div>
+                <label>Início:</label>
+                <input type="time" id="vd-horario-inicio" onchange="calcularSubtotalServico();">
+              </div>
+              <div>
+                <label>Término:</label>
+                <input type="time" id="vd-horario-fim" onchange="calcularSubtotalServico();">
+              </div>
+            </div>
+
+            <!-- Valor e Custo - Lado a lado -->
+            <div id="container-valor-custo" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+              <div>
+                <label id="label-vd-valor">Valor/Hora (R$):</label>
+                <input type="text" id="vd-valor-hora" inputmode="numeric" placeholder="0,00" oninput="formatarMoeda(this);calcularSubtotalServico();">
+              </div>
+              <div>
+                <label>Custo/Gasto (R$):</label>
+                <input type="text" id="vd-custo-associado" inputmode="numeric" placeholder="0,00" oninput="formatarMoeda(this);calcularSubtotalServico();">
+              </div>
+            </div>
+
+            <!-- Subtotal (card verde) -->
+            <div id="preview-subtotal-servico" style="background:#4CAF50;border:2px solid #388E3C;border-radius:8px;padding:12px;margin-top:12px;text-align:center;font-weight:700;color:white;font-size:18px;">
+              💰 Subtotal: R$ 0,00
+            </div>
+
+            <!-- Status (PRIMEIRO - controla as opções de pagamento) -->
+            <label style="margin-top: 12px;">Status do Recebimento:</label>
+            <select id="v-status-servico" onchange="onStatusServicoChange()" style="margin-bottom: 10px;">
+              <option value="Pago" selected>✅ Recebido (Pago)</option>
+              <option value="Pendente">⏳ Pendente (Fiado)</option>
+            </select>
+
+            <!-- Forma de Pagamento (só aparece se status = Pago) -->
+            <div id="container-forma-pagamento" style="margin-bottom: 10px;">
+              <label>Forma de Pagamento:</label>
+              <div class="pagamento-grid">
+                <label class="radio-pagamento"><input type="radio" name="forma-pag-servico" value="dinheiro" checked>
+                  💵 Dinheiro</label>
+                <label class="radio-pagamento"><input type="radio" name="forma-pag-servico" value="pix">
+                  📱 PIX</label>
+                <label class="radio-pagamento"><input type="radio" name="forma-pag-servico" value="debito">
+                  💳 Débito</label>
+                <label class="radio-pagamento"><input type="radio" name="forma-pag-servico" value="credito">
+                  💳 Crédito</label>
+              </div>
+            </div>
+
+            <label>Observações:</label>
+            <textarea id="vd-obs-servico" rows="2" placeholder="Informações adicionais sobre o atendimento..."></textarea>
+          </div>
+        </div>
+        <label>Observações:</label>
+        <textarea id="vd-obs" rows="2" placeholder="Opcional..."></textarea>
+        <button type="submit" id="btn-salvar-venda" class="btn-primario">💾 Salvar Lançamento</button>
+        <button type="button" class="btn-voltar" onclick="voltarDashboard()">Cancelar</button>
+      </form>
+    </div>
+
+    <!-- FECHAR CAIXA -->
+    <div id="tela-fechar-caixa" style="display:none;padding:20px;">
+      <div class="header-tela">
+        <button class="btn-voltar-topo" onclick="voltarDashboard()">⬅</button>
+        <h2>Fechar Caixa do Dia</h2>
+        <div style="width:40px;"></div>
+      </div>
+      <form id="form-fechar-caixa" onsubmit="salvarFechamentoCaixa(event)">
+        <input type="hidden" id="fechamento-docId-edicao">
+        <input type="hidden" id="fechamento-modo" value="fechamento">
+        <label>Data:</label>
+        <input type="date" id="fc-data" required>
+        <!-- Período e Horários em linha única -->
+        <div id="fc-periodo-horarios-container">
+          <select id="fc-periodo" onchange="onPeriodoFechamentoChange()">
+            <option value="">Escolha o período...</option>
+            <option value="Manhã">🌅 Manhã</option>
+            <option value="Tarde">☀️ Tarde</option>
+            <option value="Noite">🌙 Noite</option>
+            <option value="Dia Inteiro">📅 Dia Inteiro</option>
+            <option value="Personalizado">🔧 Personalizado</option>
+          </select>
+          <input type="time" id="fc-horario-inicio" placeholder="Início" style="display:none;">
+          <input type="time" id="fc-horario-fim" placeholder="Fim" style="display:none;">
+        </div>
+        <div class="grid-valores">
+          <div><label>💵 Dinheiro:</label><input type="text" id="fc-dinheiro" inputmode="numeric" placeholder="0,00"
+            oninput="formatarMoeda(this);"></div>
+          <div><label>📱 PIX:</label><input type="text" id="fc-pix" inputmode="numeric" placeholder="0,00"
+            oninput="formatarMoeda(this);"></div>
+          <div><label>💳 Débito:</label><input type="text" id="fc-debito" inputmode="numeric" placeholder="0,00"
+            oninput="formatarMoeda(this);"></div>
+          <div><label>💳 Crédito:</label><input type="text" id="fc-credito" inputmode="numeric" placeholder="0,00"
+            oninput="formatarMoeda(this);"></div>
+        </div>
+        <label>📝 Observações do Dia:</label>
+        <textarea id="fc-observacoes" placeholder="Movimentações importantes, quebras, etc." rows="3"></textarea>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+          <button type="submit" id="btn-salvar-fechamento" class="btn-salvar">💾 Salvar Fechamento</button>
+          <button type="button" class="btn-voltar" onclick="voltarDashboard()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- HISTÓRICO -->
+    <div id="tela-historico" style="display:none;padding:20px;">
+      <div class="header-tela"><button class="btn-voltar-topo" onclick="voltarDashboard()">⬅</button>
+        <h2>Histórico de Vendas</h2>
+        <div style="width:40px;"></div>
+      </div>
+      <div class="filtros-box">
+        <!-- Linha 1: Modo, Status, Contratação, Busca -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;align-items:end;">
+          <div>
+            <label>Modo:</label>
+            <select id="filtro-modo-hist" onchange="filtrarHistorico()">
+              <option value="todos">📋 Todos</option>
+              <option value="individual">💵 Vendas</option>
+              <option value="fechamento">🧾 Fechamentos</option>
+            </select>
+          </div>
+          <div>
+            <label>Status:</label>
+            <select id="filtro-status-hist" onchange="filtrarHistorico()">
+              <option value="todos">📋 Todos</option>
+              <option value="pago">✅ Pago</option>
+              <option value="pendente">⏳ Pendente</option>
+            </select>
+          </div>
+          <div id="filtro-contratacao-wrapper" style="display:none;">
+            <label>Contratação:</label>
+            <select id="filtro-contratacao-hist" onchange="onFiltroContratacaoChange()">
+              <option value="todos">📋 Todas</option>
+              <option value="particular">👤 Particular</option>
+              <option value="agencia">🏢 Agência</option>
+            </select>
+          </div>
+          <div>
+            <label>Buscar:</label>
+            <input type="text" id="filtro-busca-hist" placeholder="Cliente ou descrição..."
+              onkeyup="filtrarHistorico()">
+          </div>
+        </div>
+        
+        <!-- Linha 2: Agência (se visível), Pagamento, Período, Inverter -->
+        <div style="margin-top:6px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;align-items:end;">
+          <!-- Agência (só aparece quando contratação = agencia e perfil = servicos) -->
+          <div id="filtro-agencia-container" style="display:none;grid-column:span 2;">
+            <label>Agência:</label>
+            <select id="filtro-agencia-hist" onchange="filtrarHistorico()">
+              <option value="todas">📋 Todas as agências</option>
+            </select>
+          </div>
+          <div>
+            <label>Pagamento:</label>
+            <select id="filtro-tipo-hist" onchange="filtrarHistorico()">
+              <option value="todos">📋 Todos</option>
+              <option value="dinheiro">💵 Dinheiro</option>
+              <option value="pix">📱 PIX</option>
+              <option value="debito">💳 Débito</option>
+              <option value="credito">💳 Crédito</option>
+            </select>
+          </div>
+          <div>
+            <label>Período:</label>
+            <select id="filtro-periodo-hist" onchange="onPeriodoHistChange()">
+              <option value="mes">📅 Este Mês</option>
+              <option value="hoje">🌅 Hoje</option>
+              <option value="7dias">📆 Últimos 7 dias</option>
+              <option value="custom">🔧 Personalizado</option>
+            </select>
+          </div>
+          <div id="filtro-data-ini-container" style="display:none;">
+            <label>De:</label>
+            <input type="date" id="filtro-data-ini" onchange="buscarHistorico()">
+          </div>
+          <div id="filtro-data-fim-container" style="display:none;">
+            <label>Até:</label>
+            <input type="date" id="filtro-data-fim" onchange="buscarHistorico()">
+          </div>
+        </div>
+        
+        <!-- Botão de ordenar -->
+        <div style="margin-top:2px;display:flex;justify-content:flex-end;">
+          <button id="btn-ordenar-hist" onclick="toggleOrdemHistorico()" title="Inverter ordem"
+            style="background:#E3F2FD;border:1.5px solid #90CAF9;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:14px;font-family:inherit;">
+            🔃 Inverter Ordem
+          </button>
+        </div>
+      </div>
+      <div id="lista-historico">
+        <p style="text-align:center;color:#B0BEC5;padding:40px 20px;font-size:14px;">Nenhuma venda lançada ainda.</p>
+      </div>
+    </div>
+
+    <!-- COMPRAS -->
+    <div id="tela-compras" style="display:none;padding:20px;">
+      <div class="header-tela"><button class="btn-voltar-topo" onclick="voltarDashboard()">⬅</button>
+        <h2>Registrar Compra / Despesa</h2>
+        <div style="width:40px;"></div>
+      </div>
+      <div style="background:#FFF8E1;border:1.5px solid #FFE082;border-radius:12px;padding:12px 14px;margin-bottom:16px;">
+        <p style="margin:0;color:#E65100;font-size:13px;line-height:1.5;">
+          💡 <strong>Dica:</strong> Este formulário registra a saída financeira. Para dar entrada em unidades no estoque, utilize o Hub de Gestão (🗂️ Gestão).
+        </p>
+      </div>
+      <form id="form-compra" onsubmit="salvarCompra(event)">
+        <input type="hidden" id="compra-docId-edicao">
+        <label>Data:</label><input type="date" id="cp-data" required>
+        <label>Fornecedor:</label>
+        <input type="text" id="cp-fornecedor" list="lista-fornecedores-autocomplete" placeholder="Nome do fornecedor"
+          required>
+        <datalist id="lista-fornecedores-autocomplete"></datalist>
+        <label>Descrição:</label><input type="text" id="cp-descricao" required
+          placeholder="Ex: 20 pares de sandália...">
+        <label>Valor Total (R$):</label><input type="text" id="cp-valor" inputmode="numeric" placeholder="0,00"
+          oninput="formatarMoeda(this)" required>
+        <label>Nota Fiscal (opcional):</label>
+        <div id="upload-nota-box" onclick="document.getElementById('cp-nota-input').click()"
+          style="border:2px dashed #90CAF9;border-radius:12px;padding:18px;text-align:center;margin-top:5px;background:#F8F9FF;cursor:pointer;">
+          <div id="preview-notas-container" style="display:none;">
+            <div id="preview-notas-gallery" class="preview-notas-gallery" aria-live="polite"></div>
+            <p id="preview-notas-nomes" style="font-size:12px;color:#666;margin:10px 0 0;"></p>
+          </div>
+          <div id="placeholder-nota" style="color:#90A4AE;font-size:14px;">
+            <div style="font-size:32px;margin-bottom:8px;">📷</div>Toque para adicionar até 3 arquivos (imagem/PDF)
+          </div>
+          <input type="file" id="cp-nota-input" accept="image/*,application/pdf" style="display:none;" multiple
+            onchange="selecionarNota(this)">
+        </div>
+        <div id="nota-contador" style="display:none;margin-top:8px;color:#1565C0;font-weight:800;font-size:12px;"></div>
+        <label>Observações:</label><textarea id="cp-obs" rows="2" placeholder="Opcional..."></textarea>
+        <button type="submit" id="btn-salvar-compra" class="btn-primario" style="background:#E65100;">💾 Salvar
+          Compra</button>
+        <button type="button" class="btn-voltar" onclick="voltarDashboard()">Cancelar</button>
+      </form>
+      <div style="margin-top:30px;padding-top:20px;border-top:1px solid #eee;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <strong style="color:#333;font-size:15px;">Compras do Mês</strong>
+          <input type="month" id="filtro-mes-compras" onchange="buscarCompras()"
+            style="width:auto;padding:7px 10px;font-size:13px !important;">
+        </div>
+        <div id="lista-compras">
+          <p style="text-align:center;color:#B0BEC5;padding:20px;font-size:14px;">Nenhuma compra registrada.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELATÓRIOS -->
+    <div id="tela-relatorios" style="display:none;padding:20px;">
+      <div class="header-tela"><button class="btn-voltar-topo" onclick="voltarDashboard()">⬅</button>
+        <h2>Relatórios</h2>
+        <div style="width:40px;"></div>
+      </div>
+      <!-- Super Filtros Compactos -->
+      <div class="filtros-box" style="background:#E8EAF6;border-color:#9FA8DA;padding:8px;">
+        <div class="grid-filtros-4" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;align-items:end;">
+          <div>
+            <label style="color:#3949AB;font-size:11px;margin-bottom:1px;">Período:</label>
+            <select id="filtro-periodo-rel" onchange="onPeriodoRelChange()" 
+                    style="font-size:13px;padding:4px;border:1px solid #9FA8DA;border-radius:6px;">
+              <option value="hoje">🌅 Hoje</option>
+              <option value="7dias">� Últimos 7 dias</option>
+              <option value="mes" selected>📅 Mês</option>
+              <option value="custom">🔧 Personalizado</option>
+            </select>
+          </div>
+          <div id="rel-mes-container">
+            <label style="color:#3949AB;font-size:11px;margin-bottom:1px;">Mês:</label>
+            <input type="month" id="filtro-mes-relatorio" onchange="gerarRelatorio()" 
+                   style="font-size:13px;padding:4px;border:1px solid #9FA8DA;border-radius:6px;">
+          </div>
+          <div id="rel-data-ini-container" style="display:none;">
+            <label style="color:#3949AB;font-size:11px;margin-bottom:1px;">Data Início:</label>
+            <input type="date" id="filtro-data-ini-rel" onchange="gerarRelatorio()" 
+                   style="font-size:13px;padding:4px;border:1px solid #9FA8DA;border-radius:6px;">
+          </div>
+          <div id="rel-data-fim-container" style="display:none;">
+            <label style="color:#3949AB;font-size:11px;margin-bottom:1px;">Data Fim:</label>
+            <input type="date" id="filtro-data-fim-rel" onchange="gerarRelatorio()" 
+                   style="font-size:13px;padding:4px;border:1px solid #9FA8DA;border-radius:6px;">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:2px;">
+          <div>
+            <label style="color:#3949AB;font-size:11px;margin-bottom:1px;">Tipo:</label>
+            <select id="filtro-tipo-rel" onchange="gerarRelatorio()" 
+                    style="font-size:13px;padding:4px;border:1px solid #9FA8DA;border-radius:6px;">
+              <option value="todos">📋 Todos</option>
+              <option value="individual">💵 Vendas</option>
+              <option value="fechamento">🧾 Fechamento de Caixa</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:end;gap:6px;">
+            <button onclick="resetarFiltrosRelatorio()" 
+                    style="flex:1;font-size:11px;padding:4px;background:#FFF;border:1px solid #9FA8DA;color:#3949AB;border-radius:6px;cursor:pointer;">
+              🔄 Limpar
+            </button>
+            <button onclick="gerarRelatorio()" 
+                    style="flex:1;font-size:11px;padding:4px;background:#3949AB;color:white;border:1px solid #3949AB;border-radius:6px;cursor:pointer;">
+              📊 Atualizar
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="relatorio-stats">
+        <div class="stat-card"><span class="stat-label">Receita Bruta</span><strong id="rel-receita"
+            style="color:#1565C0;">R$ 0,00</strong></div>
+        <div class="stat-card"><span class="stat-label">Compras</span><strong id="rel-compras" style="color:#E65100;">R$
+            0,00</strong></div>
+        <div class="stat-card"><span class="stat-label">Lucro Est.</span><strong id="rel-lucro"
+            style="color:#2E7D32;">R$ 0,00</strong></div>
+      </div>
+      <p style="font-size:11px;color:#B0BEC5;text-align:center;margin-bottom:15px;">⚠️ Lucro estimado = Receita −
+        Compras. Não inclui despesas fixas e impostos.</p>
+      <div
+        style="background:#f8f9fa;border-radius:12px;padding:0;text-align:center;border:1px solid #eee;">
+        <canvas id="grafico-pagamentos" style="max-height:220px;"></canvas>
+        <p id="grafico-placeholder" style="color:#B0BEC5;font-size:13px;margin:0;padding:20px;">Faça lançamentos para ver o gráfico.
+        </p>
+      </div>
+      <div id="lista-relatorio">
+        <p style="text-align:center;color:#B0BEC5;padding:20px;font-size:14px;">⏳ Faça lançamentos para ver os
+          relatórios.</p>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:15px;padding-bottom:30px;">
+        <button class="btn-primario" style="background:#10b981;flex:1;margin:0;font-size:14px;"
+          onclick="enviarRelatorio()">📤 Enviar Relatório</button>
+      </div>
+    </div>
+
+    <!-- CONFIGURAÇÕES -->
+    <div id="tela-configuracoes" style="display:none;padding:20px;">
+      <div class="header-tela"><button class="btn-voltar-topo" onclick="voltarDashboard()">⬅</button>
+        <h2>Configurações</h2>
+        <div style="width:40px;"></div>
+      </div>
+      <!-- ABAS COM SETAS -->
+      <div class="tabs-wrapper">
+        <button class="scroll-arrow" onclick="scrollTabsConfig(-1)">❮</button>
+        <div class="tabs-nav" id="nav-tabs-configuracoes">
+          <button id="btn-tab-loja" class="tab-btn active" onclick="mudarAba('loja')">🏪<br>Loja</button>
+          <button id="btn-tab-meta" class="tab-btn" onclick="mudarAba('meta')">🎯<br>Meta</button>
+          <button id="btn-tab-membros" class="tab-btn" onclick="mudarAba('membros')">👥<br>Membros</button>
+          <button id="btn-tab-clientes" class="tab-btn" onclick="mudarAba('clientes')" style="display:none;">🧑<br>Clientes</button>
+          <button id="btn-tab-fornecedores" class="tab-btn"
+            onclick="mudarAba('fornecedores')" style="display:none;">🏭<br>Fornecedores</button>
+          <button id="btn-tab-produtos" class="tab-btn" onclick="mudarAba('produtos')" style="display:none;">📦<br>Produtos</button>
+          <button id="btn-tab-sobre" class="tab-btn" onclick="mudarAba('sobre')">ℹ️<br>Sobre</button>
+        </div>
+        <button class="scroll-arrow" onclick="scrollTabsConfig(1)">❯</button>
+      </div>
+      <!-- Loja -->
+      <div id="content-loja" class="tab-content active">
+        <form id="form-config-loja" onsubmit="salvarConfigLoja(event)">
+          <label>Seu Nome (aparece nos relatórios e no "Olá, [Nome]"):</label>
+          <input type="text" id="cfg-seu-nome" placeholder="Ex: Danilo Bertolani">
+          <label>Nome do Negócio:</label><input type="text" id="cfg-nome-loja" placeholder="Ex: Armarinho da Dona Maria"
+            required>
+          <label>Cidade / Bairro:</label><input type="text" id="cfg-cidade" placeholder="Ex: Centro, Vitória - ES">
+          <label>Tipo de Negócio:</label>
+          <select id="cfg-ramo">
+            <option value="">Selecione...</option>
+            <option>Roupas e Calçados</option>
+            <option>Alimentos e Bebidas</option>
+            <option>Cosméticos e Beleza</option>
+            <option>Bijuterias e Acessórios</option>
+            <option>Artigos do Lar</option>
+            <option>Loja Online / E-commerce</option>
+            <option>Serviços</option>
+            <option>Outro</option>
+          </select>
+          <label>Perfil de Negócio:</label>
+          <div id="container-seletor-perfil">
+            <select id="config-perfil-negocio" onchange="salvarPerfilNegocio()">
+              <option value="varejo-rapido">Plano Básico: Varejo Rápido (Só Fechamento de Caixa)</option>
+              <option value="varejo-padrao">Plano Padrão: Varejo (Fechamentos + Vendas Individuais sem Estoque)</option>
+              <option value="varejo-premium">Plano Premium: Varejo com Inventário (Baixa automática de Estoque)</option>
+              <option value="servicos">Perfil: Prestador de Serviços (Serviços + Despesas Casadas)</option>
+            </select>
+          </div>
+          <p id="texto-perfil-atual" style="font-weight:bold; color:var(--azul); display:none;"></p>
+          <button type="submit" id="btn-salvar-config-loja" class="btn-primario" style="background:#1565C0;">💾
+            Salvar</button>
+          <!-- Item 4: estilo de vendas -->
+        </form>
+        <div id="secao-estilo-vendas">
+          <form id="form-config-estilo" onsubmit="salvarConfigEstilo(event)"
+            style="margin-top:20px;padding-top:16px;border-top:1px solid #eee;">
+            <label>Estilo de Lançamento de Vendas:</label>
+            <select id="cfg-estilo-vendas">
+              <option value="individual">👤 Apenas Venda Individual</option>
+              <option value="fechamento">📅 Apenas Fechamento do Dia</option>
+              <option value="ambos">🔄 Usar Ambos (proteção antifraude ativa)</option>
+            </select>
+            <p style="font-size:12px;color:#90A4AE;margin:4px 0 12px;line-height:1.5;">Funcionários sempre usam Venda
+              Individual, independente desta configuração.</p>
+            <button type="submit" id="btn-salvar-estilo" class="btn-primario" style="background:#FF8F00;">💾 Salvar
+              Estilo</button>
+          </form>
+        </div>
+        <button id="btn-migrar-legado" class="btn-secundario" onclick="migrarDadosLegados()" style="margin-top:20px; width:100%; border:1px solid #FF8F00; color:#FF8F00;">📥 Sincronizar Dados Antigos</button>
+      </div>
+      <!-- Meta -->
+      <div id="content-meta" class="tab-content">
+        <form id="form-config-meta" onsubmit="salvarConfigMeta(event)">
+          <label>Meta de Faturamento Mensal:</label>
+          <p style="font-size:13px;color:#78909C;margin:5px 0 10px;line-height:1.5;">Uma barra de progresso aparece no
+            Dashboard.</p>
+          <input type="text" id="cfg-meta-valor" inputmode="numeric" placeholder="Ex: 5.000,00"
+            oninput="formatarMoeda(this)">
+          <button type="submit" id="btn-salvar-meta" class="btn-primario" style="background:#FF8F00;">🎯 Salvar
+            Meta</button>
+          <button type="button" class="btn-voltar" onclick="removerMeta()">Remover Meta</button>
+        </form>
+      </div>
+      <!-- Membros -->
+      <div id="content-membros" class="tab-content">
+        <div style="background:#E8EAF6;border-radius:12px;padding:15px;margin-bottom:20px;">
+          <p style="font-size:13px;color:#3949AB;margin:0;line-height:1.7;"><strong>👥 Como funciona:</strong><br>1.
+            Cadastre o e-mail do funcionário abaixo.<br>2. Um e-mail com código de acesso é enviado
+            automaticamente.<br>3. O funcionário acessa pelo botão "Sou funcionário" na tela inicial.<br>4. Ele digita o
+            e-mail e o código recebido para entrar.</p>
+        </div>
+        <form id="form-add-membro" onsubmit="adicionarMembro(event)">
+          <input type="hidden" id="m-docId-edicao" value="">
+          <label>Nome do Funcionário:</label><input type="text" id="m-nome" placeholder="Ex: Carlos Silva" required>
+          <label>E-mail do funcionário:</label><input type="email" id="m-email" placeholder="funcionario@gmail.com"
+            required>
+          <label>Papel / Permissão:</label>
+          <select id="m-papel" required>
+            <option value="">Selecione...</option>
+            <option value="Vendedor">🛒 Vendedor — Só lança vendas</option>
+            <option value="Gerente">📊 Gerente — Lança vendas + vê relatórios</option>
+          </select>
+          <label>Modo de Lançamento Permitido:</label>
+          <select id="m-permissao-venda">
+            <option value="individual">👤 Somente Venda Individual</option>
+            <option value="fechamento">📅 Somente Fechamento de Caixa</option>
+            <option value="ambos">🔄 Acesso Total (Ambos)</option>
+          </select>
+          <p style="font-size:12px;color:#90A4AE;margin:4px 0 0;">Essa permissão só tem efeito se o estilo da loja for
+            "Usar Ambos".</p>
+          <button type="submit" id="btn-add-membro" class="btn-primario" style="background:#3949AB;">+ Convidar
+            Membro</button>
+        </form>
+        <div style="margin-top:25px;">
+          <strong style="font-size:14px;color:#333;display:flex;align-items:center;gap:6px;">Membros <span
+              id="badge-qtd-membros"
+              style="background:#E8EAF6;color:#3949AB;border-radius:20px;padding:2px 8px;font-size:12px;">0</span></strong>
+          <div id="lista-membros" style="margin-top:10px;">
+            <p style="color:#B0BEC5;font-size:14px;padding:15px 0;">Nenhum membro cadastrado ainda.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Clientes -->
+      <div id="content-clientes" class="tab-content">
+        <form id="form-add-cliente" onsubmit="adicionarCliente(event)">
+          <input type="hidden" id="cli-docId-edicao" value="">
+          <label>Nome do Cliente:</label><input type="text" id="cli-nome" placeholder="Ex: Maria Silva" required>
+          <label>Telefone (opcional):</label><input type="tel" id="cli-telefone" placeholder="(27) 9 9999-9999"
+            inputmode="tel">
+          <label>Observações (opcional):</label><textarea id="cli-obs" rows="2"
+            placeholder="Ex: Prefere tamanho M, paga sempre no PIX..."></textarea>
+          <button type="submit" id="btn-add-cliente" class="btn-primario" style="background:#1565C0;">+ Adicionar
+            Cliente</button>
+        </form>
+        <div style="margin-top:25px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <strong style="font-size:14px;color:#333;">Clientes <span id="badge-qtd-clientes"
+                style="background:#E3F2FD;color:#1565C0;border-radius:20px;padding:2px 8px;font-size:12px;">0</span></strong>
+            <input type="text" id="busca-clientes" placeholder="Buscar..." onkeyup="filtrarListaClientes()"
+              style="width:130px;padding:7px;font-size:13px !important;">
+          </div>
+          <div id="lista-clientes">
+            <p style="color:#B0BEC5;font-size:14px;padding:15px 0;">Nenhum cliente cadastrado.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Fornecedores -->
+      <div id="content-fornecedores" class="tab-content">
+        <form id="form-add-fornecedor" onsubmit="adicionarFornecedor(event)">
+          <input type="hidden" id="forn-docId-edicao" value="">
+          <label>Nome do Fornecedor:</label><input type="text" id="forn-nome" placeholder="Ex: Atacado São Paulo"
+            required>
+          <label>Telefone / WhatsApp (opcional):</label><input type="tel" id="forn-telefone"
+            placeholder="(11) 9 9999-9999" inputmode="tel">
+          <label>Produto / Segmento (opcional):</label><input type="text" id="forn-produto"
+            placeholder="Ex: Roupas femininas...">
+          <label>Observações (opcional):</label><textarea id="forn-obs" rows="2"
+            placeholder="Ex: Mínimo 10 peças..."></textarea>
+          <button type="submit" id="btn-add-fornecedor" class="btn-primario" style="background:#E65100;">+ Adicionar
+            Fornecedor</button>
+        </form>
+        <div style="margin-top:25px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <strong style="font-size:14px;color:#333;">Fornecedores <span id="badge-qtd-fornecedores"
+                style="background:#FFF8E1;color:#E65100;border-radius:20px;padding:2px 8px;font-size:12px;">0</span></strong>
+            <input type="text" id="busca-fornecedores" placeholder="Buscar..." onkeyup="filtrarListaFornecedores()"
+              style="width:130px;padding:7px;font-size:13px !important;">
+          </div>
+          <div id="lista-fornecedores-cfg">
+            <p style="color:#B0BEC5;font-size:14px;padding:15px 0;">Nenhum fornecedor cadastrado.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="content-produtos" class="tab-content" style="display:none !important;">
+        <form id="form-produto" onsubmit="salvarProduto(event)">
+          <input type="hidden" id="prod-docId-edicao" value="">
+          <label>Nome do Produto:</label>
+          <input type="text" id="prod-nome" placeholder="Ex: Camiseta Polo Azul" required>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+            <div>
+              <label>Preço de Custo (R$):</label>
+              <input type="text" id="prod-custo" inputmode="numeric" placeholder="0,00" oninput="calcularPrecoVenda()">
+            </div>
+            <div>
+              <label>Margem de Lucro (%):</label>
+              <input type="text" id="prod-margem" inputmode="numeric" placeholder="50" oninput="calcularPrecoVenda()">
+            </div>
+            <div>
+              <label>Preço de Venda (R$):</label>
+              <input type="text" id="prod-preco" inputmode="numeric" placeholder="0,00" oninput="formatarMoeda(this)">
+            </div>
+            <div>
+              <label>Estoque (un):</label>
+              <input type="number" id="prod-estoque" inputmode="numeric" placeholder="0" min="0">
+            </div>
+          </div>
+
+          <label>Categoria (opcional):</label>
+          <input type="text" id="prod-categoria" placeholder="Ex: Roupas, Acessórios...">
+          <label>Observações (opcional):</label>
+          <textarea id="prod-obs" rows="2" placeholder="Ex: Tecido 100% algodão..."></textarea>
+
+          <button type="submit" id="btn-salvar-produto" class="btn-primario"
+            style="background:#1565C0; margin-top:10px;">
+            + Adicionar Produto
+          </button>
+        </form>
+        <div style="margin-top:25px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <strong style="font-size:14px;color:#333;">Produtos <span id="badge-qtd-produtos"
+                style="background:#E3F2FD;color:#1565C0;border-radius:20px;padding:2px 8px;font-size:12px;">0</span></strong>
+          </div>
+          <div id="lista-produtos">
+            <p style="color:#B0BEC5;font-size:14px;padding:15px 0;">Nenhum produto cadastrado.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sobre -->
+      <div id="content-sobre" class="tab-content">
+        <div style="text-align:center;padding:20px 0 30px;">
+          <!-- Item 3: logo.png substitui emoji -->
+          <img src="logo.png" alt="Logo BateCaixa"
+            style="height:60px;margin-bottom:10px;display:block;margin-left:auto;margin-right:auto;">
+          <h3 style="color:#1565C0;margin:0 0 4px;">BateCaixa</h3>
+          <p style="color:#90A4AE;font-size:13px;margin:0 0 15px;">Versão 2.2.0</p>
+          <div style="background:#f8f9fa;padding:15px;border-radius:10px;text-align:left;margin-bottom:20px;">
+            <p style="font-size:13px;margin:0 0 8px;"><strong>Desenvolvido por:</strong> Danilo Bertolani</p>
+            <p style="font-size:13px;margin:0;"><strong>Suporte:</strong> <a href="https://wa.me/5527996962395"
+                target="_blank" style="color:#25D366;font-weight:700;">📱 WhatsApp</a></p>
+          </div>
+          <!-- Botão de planos — destaque premium, posicionado acima do instalar/sugestão -->
+          <button onclick="abrirModalPlanos()" class="btn-primario"
+            style="background:linear-gradient(135deg,#FF8F00,#E65100);width:100%;padding:16px;font-size:15px;font-weight:700;margin-bottom:12px;letter-spacing:0.3px;">
+            ⭐ Ver Planos de Assinatura
+          </button>
+          <button id="btn-instalar-app" onclick="instalarApp()" class="btn-primario"
+            style="display:none;background:linear-gradient(135deg,#1565C0,#0D47A1);margin-bottom:12px;">
+            📲 Instalar App no Celular
+          </button>
+          <button onclick="abrirModalFeedback(event)" class="btn-voltar"
+            style="color:#1565C0;border-color:#90CAF9;background:#E3F2FD;width:100%;padding:14px;font-weight:700;font-size:14px;">💡
+            Enviar Sugestão</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GESTÃO (Hub Dinâmico) -->
+    <div id="tela-gestao" class="tela" style="display:none;padding:20px;">
+      <div class="header-tela">
+        <button class="btn-voltar-topo" onclick="voltarDashboard()">⬅</button>
+        <h2>🗂️ Gestão</h2>
+        <div style="width:40px;"></div>
+      </div>
+      
+      <p style="font-size:13px;color:#78909C;margin:0 0 15px;line-height:1.5;">
+        Central de cadastros e administração do seu negócio.
+      </p>
+      
+      <!-- Grid de Cards de Gestão -->
+      <div class="gestao-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+        
+        <div id="card-gestao-clientes" class="card-gestao" onclick="abrirGestaoClientes()" 
+          style="background:#E3F2FD;border:2px solid #1565C0;border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;">
+          <div style="font-size:28px;margin-bottom:8px;">🧑</div>
+          <div style="font-weight:700;color:#1565C0;font-size:14px;">Clientes</div>
+          <div style="font-size:12px;color:#64B5F6;margin-top:4px;">Cadastrar e gerenciar</div>
+        </div>
+        
+        <div id="card-gestao-produtos" class="card-gestao" onclick="abrirGestaoProdutos()" 
+          style="background:#FFF3E0;border:2px solid #FF8F00;border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;">
+          <div style="font-size:28px;margin-bottom:8px;">📦</div>
+          <div style="font-weight:700;color:#E65100;font-size:14px;">Produtos</div>
+          <div style="font-size:12px;color:#FFB74D;margin-top:4px;">Catálogo e estoque</div>
+        </div>
+        
+        <div id="card-gestao-fornecedores" class="card-gestao" onclick="abrirGestaoFornecedores()" 
+          style="background:#F3E5F5;border:2px solid #9C27B0;border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;">
+          <div style="font-size:28px;margin-bottom:8px;">🏭</div>
+          <div style="font-weight:700;color:#7B1FA2;font-size:14px;">Fornecedores</div>
+          <div style="font-size:12px;color:#BA68C8;margin-top:4px;">Contatos e compras</div>
+        </div>
+        
+        <div id="card-gestao-servicos" class="card-gestao" onclick="abrirGestaoServicos()" 
+          style="background:#E8F5E9;border:2px solid #4CAF50;border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;">
+          <div style="font-size:28px;margin-bottom:8px;">🛠️</div>
+          <div style="font-weight:700;color:#2E7D32;font-size:14px;">Tipos de Serviço</div>
+          <div style="font-size:12px;color:#81C784;margin-top:4px;">Catálogo de serviços</div>
+        </div>
+        
+        <div id="card-gestao-agencias" class="card-gestao" onclick="abrirGestaoAgencias()" 
+          style="background:#FFF8E1;border:2px solid #FFC107;border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;">
+          <div style="font-size:28px;margin-bottom:8px;">🏢</div>
+          <div style="font-weight:700;color:#F57C00;font-size:14px;">Agências</div>
+          <div style="font-size:12px;color:#FFD54F;margin-top:4px;">Parceiras e contratos</div>
+        </div>
+        
+        <div id="card-gestao-executantes" class="card-gestao" onclick="abrirGestaoExecutantes()" 
+          style="background:#E0F2F1;border:2px solid #009688;border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;">
+          <div style="font-size:28px;margin-bottom:8px;">👤</div>
+          <div style="font-weight:700;color:#00796B;font-size:14px;">Executantes</div>
+          <div style="font-size:12px;color:#4DB6AC;margin-top:4px;">Profissionais e equipe</div>
+        </div>
+        
+      </div>
+    </div>
+
+    <!-- GESTÃO DE EXECUTANTES -->
+    <div id="tela-gestao-executantes" class="tela" style="display:none;padding:20px;">
+      <div class="header-tela">
+        <button class="btn-voltar-topo" onclick="abrirTelaGestao()">⬅</button>
+        <h2>👤 Gestão de Executantes</h2>
+        <div style="width:40px;"></div>
+      </div>
+      
+      <p style="font-size:13px;color:#78909C;margin:0 0 15px;line-height:1.5;">
+        Cadastre os profissionais que executam os serviços.
+      </p>
+      
+      <!-- Formulário de Cadastro -->
+      <form id="form-executante" onsubmit="salvarExecutante(event)" style="background:#f8f9fa;border-radius:12px;padding:16px;margin-bottom:20px;">
+        <input type="hidden" id="exec-docId-edicao" value="">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Nome do Executante:</label>
+        <input type="text" id="exec-nome" placeholder="Ex: João Silva" required
+          style="width:100%;padding:12px;border:2px solid #009688;border-radius:8px;margin-bottom:12px;font-size:14px;">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Telefone:</label>
+        <input type="tel" id="exec-telefone" placeholder="(XX) XXXXX-XXXX"
+          style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Chave PIX:</label>
+        <input type="text" id="exec-pix" placeholder="CPF, CNPJ, e-mail ou chave aleatória"
+          style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin-bottom:16px;font-size:14px;">
+        
+        <div style="display:flex;gap:10px;">
+          <button type="submit" id="btn-salvar-executante" class="btn-primario" style="background:#009688;flex:1;">
+            💾 Adicionar Executante
+          </button>
+          <button type="button" onclick="limparFormExecutante()" style="background:#f0f0f0;border:1px solid #ddd;border-radius:8px;padding:12px 16px;cursor:pointer;color:#666;font-size:13px;">
+            ❌ Cancelar
+          </button>
+        </div>
+      </form>
+      
+      <!-- Lista de Executantes -->
+      <div>
+        <h3 style="font-size:15px;color:#333;margin:0 0 12px;display:flex;align-items:center;gap:6px;">
+          📋 Executantes Cadastrados
+          <span id="badge-qtd-executantes" style="background:#E0F2F1;color:#00796B;border-radius:20px;padding:2px 8px;font-size:12px;">0</span>
+        </h3>
+        <div id="lista-executantes-cadastrados" style="display:flex;flex-direction:column;gap:10px;">
+          <div style="text-align:center;padding:30px;color:#90A4AE;">
+            <div style="font-size:32px;margin-bottom:8px;">👤</div>
+            <p style="font-size:13px;margin:0;">Nenhum executante cadastrado ainda.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GESTÃO DE AGÊNCIAS -->
+    <div id="tela-gestao-agencias" class="tela" style="display:none;padding:20px;">
+      <div class="header-tela">
+        <button class="btn-voltar-topo" onclick="abrirTelaGestao()">⬅</button>
+        <h2>🏢 Gestão de Agências</h2>
+        <div style="width:40px;"></div>
+      </div>
+      
+      <p style="font-size:13px;color:#78909C;margin:0 0 15px;line-height:1.5;">
+        Cadastre as agências parceiras e o valor pago por hora de trabalho.
+      </p>
+      
+      <!-- Formulário de Cadastro -->
+      <form id="form-agencia" onsubmit="salvarAgencia(event)" style="background:#f8f9fa;border-radius:12px;padding:16px;margin-bottom:20px;">
+        <input type="hidden" id="agencia-docId-edicao" value="">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Nome da Agência:</label>
+        <input type="text" id="agencia-nome" placeholder="Ex: Agência de Interprete XYZ" required
+          style="width:100%;padding:12px;border:2px solid #FFC107;border-radius:8px;margin-bottom:12px;font-size:14px;">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Contato/Responsável:</label>
+        <input type="text" id="agencia-contato" placeholder="Ex: Maria Souza - (21) 99999-9999"
+          style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Valor Pago por Hora (R$):</label>
+        <input type="text" id="agencia-valor-hora" placeholder="0,00" inputmode="numeric" oninput="formatarMoeda(this)"
+          style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin-bottom:16px;font-size:14px;">
+        
+        <div style="display:flex;gap:10px;">
+          <button type="submit" id="btn-salvar-agencia" class="btn-primario" style="background:#FFC107;color:#333;flex:1;">
+            💾 Adicionar Agência
+          </button>
+          <button type="button" onclick="limparFormAgencia()" style="background:#f0f0f0;border:1px solid #ddd;border-radius:8px;padding:12px 16px;cursor:pointer;color:#666;font-size:13px;">
+            ❌ Cancelar
+          </button>
+        </div>
+      </form>
+      
+      <!-- Lista de Agências -->
+      <div>
+        <h3 style="font-size:15px;color:#333;margin:0 0 12px;display:flex;align-items:center;gap:6px;">
+          📋 Agências Cadastradas
+          <span id="badge-qtd-agencias" style="background:#FFF8E1;color:#F57C00;border-radius:20px;padding:2px 8px;font-size:12px;">0</span>
+        </h3>
+        <div id="lista-agencias-cadastradas" style="display:flex;flex-direction:column;gap:10px;">
+          <div style="text-align:center;padding:30px;color:#90A4AE;">
+            <div style="font-size:32px;margin-bottom:8px;">🏢</div>
+            <p style="font-size:13px;margin:0;">Nenhuma agência cadastrada ainda.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GESTÃO DE TIPOS DE SERVIÇO -->
+    <div id="tela-gestao-servicos" class="tela" style="display:none;padding:20px;">
+      <div class="header-tela">
+        <button class="btn-voltar-topo" onclick="abrirTelaGestao()">⬅</button>
+        <h2>🛠️ Gestão de Tipos de Serviço</h2>
+        <div style="width:40px;"></div>
+      </div>
+      
+      <p style="font-size:13px;color:#78909C;margin:0 0 15px;line-height:1.5;">
+        Cadastre os tipos de serviços que você oferece e seus valores base.
+      </p>
+      
+      <!-- Formulário de Cadastro -->
+      <form id="form-tipo-servico" onsubmit="salvarTipoServico(event)" style="background:#f8f9fa;border-radius:12px;padding:16px;margin-bottom:20px;">
+        <input type="hidden" id="tipo-servico-docId-edicao" value="">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Nome do Serviço:</label>
+        <input type="text" id="tipo-servico-nome" placeholder="Ex: Interpretação de Libras, Tradução Técnica" required
+          style="width:100%;padding:12px;border:2px solid #4CAF50;border-radius:8px;margin-bottom:12px;font-size:14px;">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Valor Base Sugerido (R$):</label>
+        <input type="text" id="tipo-servico-valor" placeholder="Ex: 150,00" inputmode="numeric"
+          oninput="formatarMoeda(this)"
+          style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin-bottom:16px;font-size:14px;">
+        
+        <div style="display:flex;gap:10px;">
+          <button type="submit" id="btn-salvar-tipo-servico" class="btn-primario" style="background:#4CAF50;flex:1;">
+            💾 Adicionar Tipo de Serviço
+          </button>
+          <button type="button" onclick="limparFormTipoServico()" style="background:#f0f0f0;border:1px solid #ddd;border-radius:8px;padding:12px 16px;cursor:pointer;color:#666;font-size:13px;">
+            ❌ Cancelar
+          </button>
+        </div>
+      </form>
+      
+      <!-- Lista de Tipos de Serviço -->
+      <div>
+        <h3 style="font-size:15px;color:#333;margin:0 0 12px;display:flex;align-items:center;gap:6px;">
+          📋 Tipos de Serviço Cadastrados
+          <span id="badge-qtd-tipos-servico" style="background:#E8F5E9;color:#2E7D32;border-radius:20px;padding:2px 8px;font-size:12px;">0</span>
+        </h3>
+        <div id="lista-tipos-servico-cadastrados" style="display:flex;flex-direction:column;gap:10px;">
+          <div style="text-align:center;padding:30px;color:#90A4AE;">
+            <div style="font-size:32px;margin-bottom:8px;">🛠️</div>
+            <p style="font-size:13px;margin:0;">Nenhum tipo de serviço cadastrado ainda.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GESTÃO DE CLIENTES -->
+    <div id="tela-gestao-clientes" class="tela" style="display:none;padding:20px;">
+      <div class="header-tela">
+        <button class="btn-voltar-topo" onclick="abrirTelaGestao()">⬅</button>
+        <h2>🧑 Gestão de Clientes</h2>
+        <div style="width:40px;"></div>
+      </div>
+      
+      <p style="font-size:13px;color:#78909C;margin:0 0 15px;line-height:1.5;">
+        Cadastre e gerencie seus clientes.
+      </p>
+      
+      <!-- Formulário de Cadastro -->
+      <form id="form-gestao-cliente" onsubmit="salvarClienteHub(event)" style="background:#f8f9fa;border-radius:12px;padding:16px;margin-bottom:20px;">
+        <input type="hidden" id="gestao-cli-docId-edicao" value="">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Nome do Cliente:</label>
+        <input type="text" id="gestao-cli-nome" placeholder="Ex: Maria Silva" required
+          style="width:100%;padding:12px;border:2px solid #1565C0;border-radius:8px;margin-bottom:12px;font-size:14px;">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Telefone (opcional):</label>
+        <input type="tel" id="gestao-cli-telefone" placeholder="(27) 9 9999-9999"
+          style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Observações (opcional):</label>
+        <textarea id="gestao-cli-obs" rows="2" placeholder="Ex: Prefere tamanho M, paga sempre no PIX..."
+          style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin-bottom:16px;font-size:14px;resize:vertical;"></textarea>
+        
+        <div style="display:flex;gap:10px;">
+          <button type="submit" id="btn-salvar-cliente-hub" class="btn-primario" style="background:#1565C0;flex:1;">
+            💾 Adicionar Cliente
+          </button>
+          <button type="button" onclick="limparFormClienteHub()" style="background:#f0f0f0;border:1px solid #ddd;border-radius:8px;padding:12px 16px;cursor:pointer;color:#666;font-size:13px;">
+            ❌ Cancelar
+          </button>
+        </div>
+      </form>
+      
+      <!-- Lista de Clientes -->
+      <div>
+        <h3 style="font-size:15px;color:#333;margin:0 0 12px;display:flex;align-items:center;gap:6px;">
+          📋 Clientes Cadastrados
+          <span id="badge-qtd-clientes-hub" style="background:#E3F2FD;color:#1565C0;border-radius:20px;padding:2px 8px;font-size:12px;">0</span>
+        </h3>
+        <div id="lista-clientes-hub" style="display:flex;flex-direction:column;gap:10px;">
+          <div style="text-align:center;padding:30px;color:#90A4AE;">
+            <div style="font-size:32px;margin-bottom:8px;">🧑</div>
+            <p style="font-size:13px;margin:0;">Nenhum cliente cadastrado ainda.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GESTÃO DE PRODUTOS -->
+    <div id="tela-gestao-produtos" class="tela" style="display:none;padding:20px;">
+      <div class="header-tela">
+        <button class="btn-voltar-topo" onclick="abrirTelaGestao()">⬅</button>
+        <h2>📦 Gestão de Produtos</h2>
+        <div style="width:40px;"></div>
+      </div>
+      
+      <p style="font-size:13px;color:#78909C;margin:0 0 15px;line-height:1.5;">
+        Cadastre seus produtos com preço de custo, venda e controle de estoque.
+      </p>
+      
+      <!-- Formulário de Cadastro -->
+      <form id="form-gestao-produto" onsubmit="salvarProdutoHub(event)" style="background:#f8f9fa;border-radius:12px;padding:16px;margin-bottom:20px;">
+        <input type="hidden" id="gestao-prod-docId-edicao" value="">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Nome do Produto:</label>
+        <input type="text" id="gestao-prod-nome" placeholder="Ex: Camiseta Básica Branca" required
+          style="width:100%;padding:12px;border:2px solid #FF8F00;border-radius:8px;margin-bottom:12px;font-size:14px;">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Código (opcional):</label>
+        <input type="text" id="gestao-prod-codigo" placeholder="Ex: CAM-001"
+          style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+        
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Preço de Custo (R$):</label>
+            <input type="number" id="gestao-prod-preco-custo" placeholder="0,00" step="0.01" min="0"
+              style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+          </div>
+          <div>
+            <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Preço de Venda (R$):</label>
+            <input type="number" id="gestao-prod-preco-venda" placeholder="0,00" step="0.01" min="0" required
+              style="width:100%;padding:12px;border:2px solid #FF8F00;border-radius:8px;margin-bottom:12px;font-size:14px;">
+          </div>
+        </div>
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Estoque Atual:</label>
+        <input type="number" id="gestao-prod-estoque" placeholder="0" min="0" step="1"
+          style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin-bottom:16px;font-size:14px;">
+        
+        <div style="display:flex;gap:10px;">
+          <button type="submit" id="btn-salvar-produto-hub" class="btn-primario" style="background:#FF8F00;flex:1;">
+            💾 Adicionar Produto
+          </button>
+          <button type="button" onclick="limparFormProdutoHub()" style="background:#f0f0f0;border:1px solid #ddd;border-radius:8px;padding:12px 16px;cursor:pointer;color:#666;font-size:13px;">
+            ❌ Cancelar
+          </button>
+        </div>
+      </form>
+      
+      <!-- Lista de Produtos -->
+      <div>
+        <h3 style="font-size:15px;color:#333;margin:0 0 12px;display:flex;align-items:center;gap:6px;">
+          📋 Produtos Cadastrados
+          <span id="badge-qtd-produtos-hub" style="background:#FFF3E0;color:#E65100;border-radius:20px;padding:2px 8px;font-size:12px;">0</span>
+        </h3>
+        <div id="lista-produtos-hub" style="display:flex;flex-direction:column;gap:10px;">
+          <div style="text-align:center;padding:30px;color:#90A4AE;">
+            <div style="font-size:32px;margin-bottom:8px;">📦</div>
+            <p style="font-size:13px;margin:0;">Nenhum produto cadastrado ainda.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GESTÃO DE FORNECEDORES -->
+    <div id="tela-gestao-fornecedores" class="tela" style="display:none;padding:20px;">
+      <div class="header-tela">
+        <button class="btn-voltar-topo" onclick="abrirTelaGestao()">⬅</button>
+        <h2>🏭 Gestão de Fornecedores</h2>
+        <div style="width:40px;"></div>
+      </div>
+      
+      <p style="font-size:13px;color:#78909C;margin:0 0 15px;line-height:1.5;">
+        Cadastre seus fornecedores para facilitar o controle de compras.
+      </p>
+      
+      <!-- Formulário de Cadastro -->
+      <form id="form-gestao-fornecedor" onsubmit="salvarFornecedorHub(event)" style="background:#f8f9fa;border-radius:12px;padding:16px;margin-bottom:20px;">
+        <input type="hidden" id="gestao-forn-docId-edicao" value="">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Nome do Fornecedor:</label>
+        <input type="text" id="gestao-forn-nome" placeholder="Ex: Distribuidora XYZ" required
+          style="width:100%;padding:12px;border:2px solid #9C27B0;border-radius:8px;margin-bottom:12px;font-size:14px;">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">Telefone/Contato:</label>
+        <input type="text" id="gestao-forn-telefone" placeholder="(27) 99999-9999"
+          style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+        
+        <label style="font-size:13px;color:#555;margin-bottom:6px;display:block;">CNPJ/CPF (opcional):</label>
+        <input type="text" id="gestao-forn-documento" placeholder="00.000.000/0000-00"
+          style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;margin-bottom:16px;font-size:14px;">
+        
+        <div style="display:flex;gap:10px;">
+          <button type="submit" id="btn-salvar-fornecedor-hub" class="btn-primario" style="background:#9C27B0;flex:1;">
+            💾 Adicionar Fornecedor
+          </button>
+          <button type="button" onclick="limparFormFornecedorHub()" style="background:#f0f0f0;border:1px solid #ddd;border-radius:8px;padding:12px 16px;cursor:pointer;color:#666;font-size:13px;">
+            ❌ Cancelar
+          </button>
+        </div>
+      </form>
+      
+      <!-- Lista de Fornecedores -->
+      <div>
+        <h3 style="font-size:15px;color:#333;margin:0 0 12px;display:flex;align-items:center;gap:6px;">
+          📋 Fornecedores Cadastrados
+          <span id="badge-qtd-fornecedores-hub" style="background:#F3E5F5;color:#7B1FA2;border-radius:20px;padding:2px 8px;font-size:12px;">0</span>
+        </h3>
+        <div id="lista-fornecedores-hub" style="display:flex;flex-direction:column;gap:10px;">
+          <div style="text-align:center;padding:30px;color:#90A4AE;">
+            <div style="font-size:32px;margin-bottom:8px;">🏭</div>
+            <p style="font-size:13px;margin:0;">Nenhum fornecedor cadastrado ainda.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN -->
+    <div id="tela-admin" style="display:none;padding:20px;">
+      <div class="header-tela"><button class="btn-voltar-topo" onclick="voltarDashboard()">⬅</button>
+        <h2>Painel Master</h2>
+        <div style="width:40px;"></div>
+      </div>
+      <input type="text" id="busca-admin" placeholder="Filtrar por email ou nome..." oninput="filtrarAdmin()"
+        style="margin-bottom:15px;">
+      <div id="lista-admin-clientes">
+        <div class="loader"></div>
+      </div>
+    </div>
+
+  </div>
+  <!-- FIM DO CONTAINER-APP -->
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js" crossorigin="anonymous"></script>
+  <script type="module" src="firebase-config.js"></script>
+  <script src="script.js"></script>
+
+  <!-- ÁREA DE MODAIS (ISOLADOS DO CONTEÚDO PRINCIPAL) -->
+  
+  <!-- MODAL TERMOS -->
+  <div id="modal-termos" class="modal-overlay" style="display:none;"
+    onclick="if(event.target===this)fecharModalTermos()">
+    <div class="modal-box">
+      <h3 style="margin:0 0 15px;color:#1565C0;">📋 Termos de Uso</h3>
+      <div style="font-size:13px;color:#444;line-height:1.7;">
+        <p><strong>1. Uso de Dados</strong><br>Coletamos apenas seu e-mail e nome para autenticação. Nunca
+          comercializamos seus dados.</p>
+        <p><strong>2. Armazenamento</strong><br>Seus registros ficam em planilha privada na infraestrutura Google.</p>
+        <p><strong>3. Seus Direitos (LGPD)</strong><br>Solicite exclusão dos seus dados pelo WhatsApp de suporte a
+          qualquer momento.</p>
+        <p><strong>4. Segurança</strong><br>Google OAuth 2.0 + HTTPS em todas as transmissões.</p>
+      </div>
+      <button onclick="fecharModalTermos()" class="btn-primario" style="background:#1565C0;margin-top:15px;">✅
+        Entendido</button>
+    </div>
+  </div>
+
+  <!-- MODAL LOGOUT -->
+  <div id="modal-logout" class="modal-overlay" style="display:none;"
+    onclick="if(event.target===this)fecharModalLogout()">
+    <div class="modal-box" style="text-align:center;">
+      <div style="font-size:50px;margin-bottom:10px;">🚪</div>
+      <h3 style="margin:0 0 10px;">Sair do BateCaixa?</h3>
+      <div style="display:flex;gap:10px;">
+        <button onclick="fecharModalLogout()" class="btn-voltar" style="margin:0;flex:1;">Cancelar</button>
+        <button onclick="confirmarLogout()" class="btn-primario"
+          style="background:#C62828;margin:0;flex:1;">Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CONFIRMAÇÃO -->
+  <div id="modal-confirmacao" class="modal-overlay" style="display:none;">
+    <div class="modal-box" style="text-align:center;">
+      <div id="confirm-icon" style="font-size:48px;margin-bottom:10px;">⚠️</div>
+      <h3 id="confirm-titulo" style="margin:0 0 10px;color:#333;"></h3>
+      <p id="confirm-mensagem" style="color:#555;font-size:14px;margin-bottom:20px;line-height:1.5;"></p>
+      <div style="display:flex;gap:10px;">
+        <button onclick="fecharConfirmacao(false)" class="btn-voltar" style="margin:0;flex:1;">Cancelar</button>
+        <button id="btn-confirmar-ok" class="btn-primario"
+          style="margin:0;flex:1;background:#C62828;">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL FEEDBACK -->
+  <div id="modal-feedback" class="modal-overlay" style="display:none;"
+    onclick="if(event.target===this)fecharModalFeedback()">
+    <div class="modal-box">
+      <h3 style="margin:0 0 5px;color:#1565C0;">💡 Ajude o BateCaixa a melhorar</h3>
+      <p style="font-size:13px;color:#78909C;margin:0 0 15px;">Leva menos de 1 minuto e faz toda a diferença. 🙏</p>
+      <form id="form-feedback" onsubmit="enviarFeedback(event)">
+        <label>Quanto você investiria mensalmente por essa gestão organizada?</label>
+        <select id="fb-preco" required>
+          <option value="">Selecione...</option>
+          <option value="0">🆓 Uso gratuito</option>
+          <option value="9">💰 R$ 9/mês (individual)</option>
+          <option value="19">💼 R$ 19/mês (até 3 funcionários)</option>
+          <option value="39">🏢 R$ 39/mês (equipe completa)</option>
+          <option value="99">🚀 R$ 99/mês (franquia/cadeia)</option>
+        </select>
+        <label>O que você mais gostou?</label>
+        <textarea id="fb-gostou" rows="2" placeholder="Ex: Simplicidade, design, rapidez..." required></textarea>
+        <label>O que podemos melhorar?</label>
+        <textarea id="fb-melhorar" rows="2" placeholder="Ex: Relatórios, mais opções de pagamento..." required></textarea>
+        <label>Seu e-mail (opcional)</label>
+        <input type="email" id="fb-email" placeholder="seu@email.com">
+        <div style="display:flex;gap:10px;margin-top:15px;">
+          <button type="button" onclick="fecharModalFeedback()" class="btn-voltar"
+            style="margin:0;flex:1;">Fechar</button>
+          <button type="submit" id="btn-enviar-feedback" class="btn-primario"
+            style="margin:0;flex:1;background:#FF8F00;">Enviar 🚀</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL PLANOS -->
+  <div id="modal-planos" class="modal-overlay" style="display:none;"
+    onclick="if(event.target===this)fecharModalPlanos()">
+    <div class="modal-box" style="text-align:center;">
+      <!-- Vista 1: Escolha de planos (gerada dinamicamente pelo JS) -->
+      <div id="modal-planos-escolha">
+        <h3 style="margin:0 0 6px;color:#1565C0;">🧾 Assinar BateCaixa</h3>
+        <p style="font-size:13px;color:#78909C;margin:0 0 20px;">Escolha o plano e a forma de pagamento.</p>
+        <!-- Planos injetados via renderizarModalPlanos() -->
+        <div id="modal-planos-lista">
+          <div class="loader" style="margin:20px auto;"></div>
+        </div>
+        <p style="font-size:12px;color:#B0BEC5;margin:12px 0 15px;">🔒 Pagamento seguro via Mercado Pago. Sem
+          fidelidade.</p>
+        <button onclick="fecharModalPlanos()" class="btn-voltar">Agora não</button>
+      </div>
+      <!-- Vista 2: QR Code PIX (oculta por padrão) -->
+      <div id="modal-planos-pix" style="display:none;">
+        <h3 style="margin:0 0 4px;color:#2E7D32;">📱 Pagar com PIX</h3>
+        <p id="pix-plano-label" style="font-size:13px;color:#78909C;margin:0 0 16px;"></p>
+        <div style="background:#E8F5E9;border:2px solid #A5D6A7;border-radius:14px;padding:16px;margin-bottom:14px;">
+          <img id="pix-qrcode-img" src="" alt="QR Code PIX"
+            style="width:190px;height:190px;display:block;margin:0 auto 12px;border-radius:8px;">
+          <p style="font-size:12px;color:#546E7A;margin:0 0 8px;font-weight:700;">Ou copie o código:</p>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <input type="text" id="pix-copia-cola" readonly
+              style="flex:1;font-size:11px;padding:8px;border:1px solid #A5D6A7;border-radius:6px;background:#fff;font-family:monospace;"
+              onclick="this.select()">
+            <button onclick="copiarPix()" class="btn-primario"
+              style="padding:6px 12px;font-size:12px;background:#2E7D32;">📋</button>
+          </div>
+        </div>
+        <div
+          style="background:#FFF8E1;border:1px solid #FFB300;border-radius:10px;padding:10px 12px;margin-bottom:14px;text-align:left;">
+          <p style="font-size:12px;color:#E65100;margin:0;line-height:1.6;">⏱️ <strong>Validade: 30 minutos.</strong>
+            Após o pagamento, seu acesso será ativado automaticamente em alguns minutos.</p>
+        </div>
+        <button onclick="voltarEscolhaPlanos()" class="btn-voltar" style="margin-bottom:8px;">← Voltar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DETALHES VENDA -->
+  <div id="modal-detalhes-venda" class="modal-overlay" style="display:none;"
+    onclick="if(event.target===this)fecharModalDetalhesVenda()">
+    <div class="modal-box" style="text-align:center;">
+      <div style="font-size:48px;margin-bottom:8px;">🧾</div>
+      <h3 id="detalhes-venda-titulo" style="margin:0 0 6px;color:#1565C0;">Detalhes da Venda</h3>
+      <p id="detalhes-venda-resumo" style="font-size:14px;color:#546E7A;margin:0 0 18px;white-space:pre-line;"></p>
+      <button id="btn-dar-baixa" onclick="darBaixaVenda(_detalhesVendaLinha)" class="btn-primario"
+        style="background:#2E7D32;display:none;margin-bottom:0;">
+        ✅ Dar Baixa (Marcar como Pago)
+      </button>
+      <button onclick="fecharModalDetalhesVenda()" class="btn-voltar" style="margin-top:12px;">Fechar</button>
+    </div>
+  </div>
+
+  <!-- MODAL DETALHES COMPRA -->
+  <div id="modal-detalhes-compra" class="modal-overlay" style="display:none;"
+    onclick="if(event.target===this)fecharModalDetalhesCompra()">
+    <div class="modal-box" style="text-align:center;">
+      <div style="font-size:48px;margin-bottom:8px;">🛒</div>
+      <h3 id="detalhes-compra-titulo" style="margin:0 0 6px;color:#E65100;">Detalhes da Compra</h3>
+      <div id="detalhes-compra-resumo" style="font-size:14px;color:#546E7A;margin:0 0 18px; text-align:left;"></div>
+      <div id="detalhes-compra-notas" style="margin-bottom:20px;"></div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+        <button id="btn-edit-compra" class="btn-acao btn-editar" style="width:100%; padding:12px;">✏️ Editar</button>
+        <button id="btn-del-compra" class="btn-acao btn-excluir" style="width:100%; padding:12px;">🗑️ Excluir</button>
+      </div>
+      <button onclick="fecharModalDetalhesCompra()" class="btn-voltar"
+        style="margin-top:12px; width:100%;">Fechar</button>
+    </div>
+  </div>
+
+  <!-- MODAL RECIBO -->
+  <div id="modal-recibo" class="modal-overlay" style="display:none;"
+    onclick="if(event.target===this)fecharModalRecibo()">
+    <div class="modal-box" style="text-align:center;">
+      <div id="recibo-imagem-area" class="recibo-imagem-area">
+        <div style="font-size:48px;margin-bottom:8px;">✅</div>
+        <h3 style="margin:0 0 6px;color:#2E7D32;">Venda Registrada!</h3>
+        <p id="recibo-resumo" style="font-size:14px;color:#546E7A;margin:0 0 20px;white-space:pre-line;"></p>
+      </div>
+      <button id="btn-recibo-wpp" onclick="enviarReciboWhatsApp()" class="btn-primario"
+        style="background:linear-gradient(135deg,#25D366,#128C7E);margin-top:14px;">
+        📱 Enviar Recibo no WhatsApp
+      </button>
+      <button id="btn-recibo-baixar" onclick="baixarReciboImagem()" class="btn-primario"
+        style="background:#37474F;margin-top:12px;margin-bottom:0;">
+        🖼️ Baixar Recibo (Imagem)
+      </button>
+      <button onclick="fecharModalRecibo()" class="btn-voltar" style="margin-top:10px;">Fechar</button>
+    </div>
+  </div>
+
+  <!-- FASE 11.12: Modal Novidades v2 - Changelog Interno -->
+  <div id="modal-novidades-v2" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:12px;padding:24px;max-width:400px;width:90%;max-height:80vh;overflow-y:auto;">
+      <h2 style="margin:0 0 16px 0;color:#1e3a8a;font-size:20px;text-align:center;">🚀 Novidades BateCaixa v2.0</h2>
+      <div style="margin-bottom:20px;">
+        <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+          <span style="color:#2E7D32;font-size:18px;">✅</span>
+          <span style="color:#333;font-size:14px;">Sincronização em Nuvem (Firebase)</span>
+        </div>
+        <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+          <span style="color:#2E7D32;font-size:18px;">✅</span>
+          <span style="color:#333;font-size:14px;">Gestão de Estoque com Baixa Automática</span>
+        </div>
+        <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+          <span style="color:#2E7D32;font-size:18px;">✅</span>
+          <span style="color:#333;font-size:14px;">Autocompletar Inteligente de Preços</span>
+        </div>
+        <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+          <span style="color:#2E7D32;font-size:18px;">✅</span>
+          <span style="color:#333;font-size:14px;">Histórico Detalhado com Quantidades</span>
+        </div>
+        <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+          <span style="color:#2E7D32;font-size:18px;">✅</span>
+          <span style="color:#333;font-size:14px;">Nova Interface Lojista e Prestador</span>
+        </div>
+        <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+          <span style="color:#2E7D32;font-size:18px;">✅</span>
+          <span style="color:#333;font-size:14px;">Cálculo Automático de Lucro Líquido</span>
+        </div>
+      </div>
+      <button onclick="document.getElementById('modal-novidades-v2').style.display='none'" class="btn-voltar" style="width:100%;margin:0;">Entendi</button>
+    </div>
+  </div>
+
+</body>
+
+</html>
